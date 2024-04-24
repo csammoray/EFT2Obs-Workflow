@@ -1,4 +1,4 @@
 .mg5
 .snakemake
-bin
-procs
+results
+snakemake_env
