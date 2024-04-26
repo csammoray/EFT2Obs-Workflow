@@ -13,8 +13,23 @@ rule setup_process:
   shell:
     """
     set +u ; pushd /eft2obs ; source /eft2obs/env.sh ; export PATH=${{PATH}}:/eft2obs/scripts ; popd
+    ./EFT2Obs/scripts/setup_model_for_proc.sh {wildcards.proc}
     ./EFT2Obs/scripts/setup_process.sh {wildcards.proc}
     """
+
+# rule auto_detect:
+#   input:
+#     "results/process_output/{proc}/MGMEVersion.txt"
+#   output:
+#     "cards/{proc}/param_card.dat",
+#     "cards/{proc}/reweight_card.dat",
+#     "cards/{proc}/config.json"
+#   shell:
+#     """
+#     set +u ; pushd /eft2obs ; source /eft2obs/env.sh ; export PATH=${{PATH}}:/eft2obs/scripts ; popd
+#     ./EFT2Obs/scripts/setup_model_for_proc.sh {wildcards.proc}
+#     ./EFT2Obs/scripts/auto_detect_operators.py -p {wildcards.proc} 
+#     """
 
 rule make_config:
   input:
@@ -24,7 +39,7 @@ rule make_config:
   shell:
     """
     set +u ; pushd /eft2obs ; source /eft2obs/env.sh ; export PATH=${{PATH}}:/eft2obs/scripts ; popd
-    ./EFT2Obs/scripts/make_config.py -p {wildcards.proc} -o results/{wildcards.proc}/config.json --pars newcoup:4,5,6,7,8,9,10,11,12
+    ./EFT2Obs/scripts/make_config.py -p {wildcards.proc} -o results/{wildcards.proc}/config.json --pars SMEFT:4,5,7
     """
 
 rule make_param_card:
@@ -55,24 +70,24 @@ rule make_gridpack:
     "cards/{proc}/param_card.dat",
     "cards/{proc}/reweight_card.dat"
   output:
-    "results/{proc}/gridpack_{proc}.tar.gz"
+    "results/process_output/gridpack_{proc}.tar.gz"
   shell:
     """
     set +u ; pushd /eft2obs ; source /eft2obs/env.sh ; export PATH=${{PATH}}:/eft2obs/scripts ; popd
+    ./EFT2Obs/scripts/setup_model_for_proc.sh {wildcards.proc}
     ./EFT2Obs/scripts/make_gridpack.sh {wildcards.proc}
-    mv results/process_output/gridpack_{wildcards.proc}.tar.gz results/{wildcards.proc}/
     """
 
 rule run_gridpack:
   input:
-    "results/{proc}/gridpack_{proc}.tar.gz"
+    "results/process_output/gridpack_{proc}.tar.gz"
   output:
     "results/{proc}/yoda/Rivet_1.yoda"
   shell:
     """
     set +u ; pushd /eft2obs ; source /eft2obs/env.sh ; export PATH=${{PATH}}:/eft2obs/scripts ; popd
-    export HIGGSPRODMODE=ZH
-    ./EFT2Obs/scripts/run_gridpack.py --gridpack results/{wildcards.proc}/gridpack_{wildcards.proc}.tar.gz -s 1 -e 500 -p HiggsTemplateCrossSectionsStage1,HiggsTemplateCrossSections -o results/{wildcards.proc}/yoda
+    export HIGGSPRODMODE=WH
+    ./EFT2Obs/scripts/run_gridpack.py --gridpack results/process_output/gridpack_{wildcards.proc}.tar.gz -s 1 -e 500 -p HiggsTemplateCrossSectionsStage1,HiggsTemplateCrossSections -o results/{wildcards.proc}/yoda
     """
 
 rule get_scaling:
