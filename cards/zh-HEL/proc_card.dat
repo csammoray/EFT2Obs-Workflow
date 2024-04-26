@@ -1,6 +1,5 @@
 import model HEL_UFO
 
-# Definitions
 define ell+ = e+ mu+ ta+
 define ell- = e- mu- ta-
 define j2 = g u c d s u~ c~ d~ s~

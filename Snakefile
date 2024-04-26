@@ -1,13 +1,32 @@
 container:
   "docker://charlotteknight/eft2obs"
 
-rule collect:
+DECAY_PROCS = ["H_aa", "H_bb", "H_cc", "H_gg", "H_tautau", "H_WW", "H_Za", "H_ZZ", "H_mumu",
+                "H_llll", "H_llnunu", "H_lnuqq",  "H_nunuqq", "H_qqqq"]
+DECAY_PROCS = ["%s_SMEFTsim_topU3l"%proc for proc in DECAY_PROCS]
+
+Z_PROCS = ["%s_SMEFTsim_topU3l"%proc for proc in ["Z_ll", "Z_qq", "Z_vv"]]
+
+PROD_PROCS = ["tHq", "tHW", "ttH", "WH_lep", "ZH_lep", "bbH", "qqH"]
+PROD_PROCS = ["%s_SMEFTsim_topU3l"%proc for proc in PROD_PROCS]
+
+ALL_PROCS = DECAY_PROCS + Z_PROCS + PROD_PROCS
+
+rule all:
   input:
-    "results/{proc}/equation.json"
+    expand("results/{proc}/equation.json", proc=ALL_PROCS)    
+
+rule copy_cards:
+  input:
+    "cards/{proc}/proc_card.dat"
+  output:
+    "results/cards/{proc}/proc_card.dat"
+  shell:
+    "cp cards/{wildcards.proc}/* results/cards/{wildcards.proc}/"
 
 rule setup_process:
   input:
-    "cards/{proc}/proc_card.dat"
+    "results/cards/{proc}/proc_card.dat"
   output:
     "results/process_output/{proc}/MGMEVersion.txt"
   shell:
@@ -17,58 +36,35 @@ rule setup_process:
     ./EFT2Obs/scripts/setup_process.sh {wildcards.proc}
     """
 
-# rule auto_detect:
-#   input:
-#     "results/process_output/{proc}/MGMEVersion.txt"
-#   output:
-#     "cards/{proc}/param_card.dat",
-#     "cards/{proc}/reweight_card.dat",
-#     "cards/{proc}/config.json"
-#   shell:
-#     """
-#     set +u ; pushd /eft2obs ; source /eft2obs/env.sh ; export PATH=${{PATH}}:/eft2obs/scripts ; popd
-#     ./EFT2Obs/scripts/setup_model_for_proc.sh {wildcards.proc}
-#     ./EFT2Obs/scripts/auto_detect_operators.py -p {wildcards.proc} 
-#     """
-
-rule make_config:
+rule auto_detect:
   input:
     "results/process_output/{proc}/MGMEVersion.txt"
   output:
-    "results/{proc}/config.json"
+    "results/cards/{proc}/reweight_card.dat",
+    "results/cards/{proc}/config.json"
   shell:
     """
     set +u ; pushd /eft2obs ; source /eft2obs/env.sh ; export PATH=${{PATH}}:/eft2obs/scripts ; popd
-    ./EFT2Obs/scripts/make_config.py -p {wildcards.proc} -o results/{wildcards.proc}/config.json --pars SMEFT:4,5,7
+    ./EFT2Obs/scripts/setup_model_for_proc.sh {wildcards.proc}
+    ./EFT2Obs/scripts/auto_detect_operators.py -p {wildcards.proc} 
     """
 
 rule make_param_card:
   input:
-    "results/{proc}/config.json"
+    "results/cards/{proc}/config.json"
   output:
-    "cards/{proc}/param_card.dat"
+    "results/cards/{proc}/param_card.dat"
   shell:
     """
     set +u ; pushd /eft2obs ; source /eft2obs/env.sh ; export PATH=${{PATH}}:/eft2obs/scripts ; popd
-    ./EFT2Obs/scripts/make_param_card.py -p {wildcards.proc} -c results/{wildcards.proc}/config.json -o cards/{wildcards.proc}/param_card.dat
-    """
-
-rule make_reweight_card:
-  input:
-    "results/{proc}/config.json"
-  output:
-    "cards/{proc}/reweight_card.dat"
-  shell:
-    """
-    set +u ; pushd /eft2obs ; source /eft2obs/env.sh ; export PATH=${{PATH}}:/eft2obs/scripts ; popd
-    ./EFT2Obs/scripts/make_reweight_card.py results/{wildcards.proc}/config.json cards/{wildcards.proc}/reweight_card.dat
+    ./EFT2Obs/scripts/make_param_card.py -p {wildcards.proc} -c results/cards/{wildcards.proc}/config.json -o results/cards/{wildcards.proc}/param_card.dat
     """
 
 rule make_gridpack:
   input:
     "results/process_output/{proc}/MGMEVersion.txt",
-    "cards/{proc}/param_card.dat",
-    "cards/{proc}/reweight_card.dat"
+    "results/cards/{proc}/param_card.dat",
+    "results/cards/{proc}/reweight_card.dat"
   output:
     "results/process_output/gridpack_{proc}.tar.gz"
   shell:
@@ -98,5 +94,27 @@ rule get_scaling:
   shell:
     """
     set +u ; pushd /eft2obs ; source /eft2obs/env.sh ; export PATH=${{PATH}}:/eft2obs/scripts ; popd
-    ./EFT2Obs/scripts/get_scaling.py -c results/{wildcards.proc}/config.json -i results/{wildcards.proc}/yoda/Rivet_1.yoda --hist "/HiggsTemplateCrossSections/pT_V" --save json -o results/{wildcards.proc}/equation
+    ./EFT2Obs/scripts/get_scaling.py -c results/cards/{wildcards.proc}/config.json -i results/{wildcards.proc}/yoda/Rivet_1.yoda --hist "/HiggsTemplateCrossSections/pT_V" --save json -o results/{wildcards.proc}/equation
     """
+
+# rule make_config:
+#   input:
+#     "results/process_output/{proc}/MGMEVersion.txt"
+#   output:
+#     "results/cards/{proc}/config.json"
+#   shell:
+#     """
+#     set +u ; pushd /eft2obs ; source /eft2obs/env.sh ; export PATH=${{PATH}}:/eft2obs/scripts ; popd
+#     ./EFT2Obs/scripts/make_config.py -p {wildcards.proc} -o results/cards/{wildcards.proc}/config.json --pars SMEFT:4 --def-val 1.0
+#     """
+
+# rule make_reweight_card:
+#   input:
+#     "results/cards/{proc}/config.json"
+#   output:
+#     "results/cards/{proc}/reweight_card.dat"
+#   shell:
+#     """
+#     set +u ; pushd /eft2obs ; source /eft2obs/env.sh ; export PATH=${{PATH}}:/eft2obs/scripts ; popd
+#     ./EFT2Obs/scripts/make_reweight_card.py results/cards/{wildcards.proc}/config.json results/cards/{wildcards.proc}/reweight_card.dat
+#     """
