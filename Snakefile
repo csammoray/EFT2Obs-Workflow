@@ -22,7 +22,10 @@ rule copy_cards:
   output:
     "results/cards/{proc}/proc_card.dat"
   shell:
-    "cp cards/{wildcards.proc}/* results/cards/{wildcards.proc}/"
+    """
+    cp cards/{wildcards.proc}/* results/cards/{wildcards.proc}/
+    cp -r cards/restrict_cards/ results/cards/restrict_cards/
+    """
 
 rule setup_process:
   input:

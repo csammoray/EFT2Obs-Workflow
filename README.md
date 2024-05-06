@@ -29,6 +29,11 @@ One could now run the snakemake command and it will internally pull the docker (
 apptainer pull charlotteknight/eft2obs
 ```
 
+Source some environment variables that get transferred to the container:
+```
+source env_vars.sh
+```
+
 To run the workflow first source some environment variables with `source env_vars.sh`. Then run:
 ```
 snakemake --cores 1 --sdm apptainer --apptainer-args "--writable-tmpfs " -p results/WH_lep_SMEFTsim_topU3l/equation.json
