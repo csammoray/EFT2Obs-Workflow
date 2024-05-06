@@ -37,6 +37,7 @@ rule setup_process:
     set +u ; pushd /eft2obs ; source /eft2obs/env.sh ; export PATH=${{PATH}}:/eft2obs/scripts ; popd
     ./EFT2Obs/scripts/setup_model_for_proc.sh {wildcards.proc}
     ./EFT2Obs/scripts/setup_process.sh {wildcards.proc}
+    sed -i 's/!partonlevel:mpi = off/partonlevel:mpi = off/g' results/cards/{wildcards.proc}/pythia8_card.dat
     """
 
 rule auto_detect:
@@ -49,7 +50,7 @@ rule auto_detect:
     """
     set +u ; pushd /eft2obs ; source /eft2obs/env.sh ; export PATH=${{PATH}}:/eft2obs/scripts ; popd
     ./EFT2Obs/scripts/setup_model_for_proc.sh {wildcards.proc}
-    ./EFT2Obs/scripts/auto_detect_operators.py -p {wildcards.proc} 
+    ./EFT2Obs/scripts/auto_detect_operators.py -p {wildcards.proc} --noValidation
     """
 
 rule make_param_card:
@@ -67,7 +68,9 @@ rule make_gridpack:
   input:
     "results/process_output/{proc}/MGMEVersion.txt",
     "results/cards/{proc}/param_card.dat",
-    "results/cards/{proc}/reweight_card.dat"
+    "results/cards/{proc}/reweight_card.dat",
+    "results/cards/{proc}/run_card.dat",
+    "results/cards/{proc}/pythia8_card.dat"
   output:
     "results/process_output/gridpack_{proc}.tar.gz"
   shell:
@@ -99,25 +102,3 @@ rule get_scaling:
     set +u ; pushd /eft2obs ; source /eft2obs/env.sh ; export PATH=${{PATH}}:/eft2obs/scripts ; popd
     ./EFT2Obs/scripts/get_scaling.py -c results/cards/{wildcards.proc}/config.json -i results/{wildcards.proc}/yoda/Rivet_1.yoda --hist "/HiggsTemplateCrossSections/pT_V" --save json -o results/{wildcards.proc}/equation
     """
-
-# rule make_config:
-#   input:
-#     "results/process_output/{proc}/MGMEVersion.txt"
-#   output:
-#     "results/cards/{proc}/config.json"
-#   shell:
-#     """
-#     set +u ; pushd /eft2obs ; source /eft2obs/env.sh ; export PATH=${{PATH}}:/eft2obs/scripts ; popd
-#     ./EFT2Obs/scripts/make_config.py -p {wildcards.proc} -o results/cards/{wildcards.proc}/config.json --pars SMEFT:4 --def-val 1.0
-#     """
-
-# rule make_reweight_card:
-#   input:
-#     "results/cards/{proc}/config.json"
-#   output:
-#     "results/cards/{proc}/reweight_card.dat"
-#   shell:
-#     """
-#     set +u ; pushd /eft2obs ; source /eft2obs/env.sh ; export PATH=${{PATH}}:/eft2obs/scripts ; popd
-#     ./EFT2Obs/scripts/make_reweight_card.py results/cards/{wildcards.proc}/config.json results/cards/{wildcards.proc}/reweight_card.dat
-#     """
