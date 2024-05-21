@@ -7,7 +7,7 @@ mv bin snakemake_env
 export MAMBA_ROOT_PREFIX=${PWD}/snakemake_env
 eval "$(./snakemake_env/micromamba shell hook -s posix)"
 
-micromamba create -c conda-forge -c bioconda -n snakemake snakemake
+micromamba create -c conda-forge -c bioconda -n snakemake snakemake cookiecutter
 micromamba activate snakemake
 ```
 
