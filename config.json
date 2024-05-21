@@ -1,0 +1,462 @@
+{
+    "Z_ll_SMEFTsim_topU3l": {
+        "rivet": "inclusive",
+        "hist": "myh1",
+        "prodmode": "",
+        "extra_opts": "--rivet-ignore-beams",
+        "make_gridpack_runtime": 10,
+        "make_gridpack_threads": 1,
+        "nevents": 10,
+        "njobs": 2
+    },
+    "Z_qq_SMEFTsim_topU3l": {
+        "rivet": "inclusive",
+        "hist": "myh1",
+        "prodmode": "",
+        "extra_opts": "--rivet-ignore-beams",
+        "make_gridpack_runtime": 10,
+        "make_gridpack_threads": 1,
+        "nevents": 10,
+        "njobs": 2
+    },
+    "Z_vv_SMEFTsim_topU3l": {
+        "rivet": "inclusive",
+        "hist": "myh1",
+        "prodmode": "",
+        "extra_opts": "--rivet-ignore-beams",
+        "make_gridpack_runtime": 10,
+        "make_gridpack_threads": 1,
+        "nevents": 10,
+        "njobs": 2
+    },
+    "H_aa_SMEFTsim_topU3l": {
+        "rivet": "inclusive",
+        "hist": "myh1",
+        "prodmode": "",
+        "extra_opts": "--rivet-ignore-beams",
+        "make_gridpack_runtime": 10,
+        "make_gridpack_threads": 1,
+        "nevents": 10,
+        "njobs": 2
+    },
+    "H_bb_SMEFTsim_topU3l": {
+        "rivet": "inclusive",
+        "hist": "myh1",
+        "prodmode": "",
+        "extra_opts": "--rivet-ignore-beams",
+        "make_gridpack_runtime": 10,
+        "make_gridpack_threads": 1,
+        "nevents": 10,
+        "njobs": 2
+    },
+    "H_cc_SMEFTsim_topU3l": {
+        "rivet": "inclusive",
+        "hist": "myh1",
+        "prodmode": "",
+        "extra_opts": "--rivet-ignore-beams",
+        "make_gridpack_runtime": 10,
+        "make_gridpack_threads": 1,
+        "nevents": 10,
+        "njobs": 2
+    },
+    "H_gg_SMEFTsim_topU3l": {
+        "rivet": "inclusive",
+        "hist": "myh1",
+        "prodmode": "",
+        "extra_opts": "--rivet-ignore-beams",
+        "make_gridpack_runtime": 10,
+        "make_gridpack_threads": 1,
+        "nevents": 10,
+        "njobs": 2
+    },
+    "H_tautau_SMEFTsim_topU3l": {
+        "rivet": "inclusive",
+        "hist": "myh1",
+        "prodmode": "",
+        "extra_opts": "--rivet-ignore-beams",
+        "make_gridpack_runtime": 10,
+        "make_gridpack_threads": 1,
+        "nevents": 10,
+        "njobs": 2
+    },
+    "H_WW_SMEFTsim_topU3l": {
+        "rivet": "inclusive",
+        "hist": "myh1",
+        "prodmode": "",
+        "extra_opts": "--rivet-ignore-beams",
+        "make_gridpack_runtime": 600,
+        "make_gridpack_threads": 8,
+        "nevents": 100,
+        "njobs": 2
+    },
+    "H_Za_SMEFTsim_topU3l": {
+        "rivet": "inclusive",
+        "hist": "myh1",
+        "prodmode": "",
+        "extra_opts": "--rivet-ignore-beams",
+        "make_gridpack_runtime": 10,
+        "make_gridpack_threads": 1,
+        "nevents": 10,
+        "njobs": 2
+    },
+    "H_ZZ_SMEFTsim_topU3l": {
+        "rivet": "inclusive",
+        "hist": "myh1",
+        "prodmode": "",
+        "extra_opts": "--rivet-ignore-beams",
+        "make_gridpack_runtime": 600,
+        "make_gridpack_threads": 8,
+        "nevents": 100,
+        "njobs": 2
+    },
+    "H_mumu_SMEFTsim_topU3l": {
+        "rivet": "inclusive",
+        "hist": "myh1",
+        "prodmode": "",
+        "extra_opts": "--rivet-ignore-beams",
+        "make_gridpack_runtime": 10,
+        "make_gridpack_threads": 1,
+        "nevents": 10,
+        "njobs": 2
+    },
+    "H_llll_SMEFTsim_topU3l": {
+        "rivet": "inclusive",
+        "hist": "myh1",
+        "prodmode": "",
+        "extra_opts": "--rivet-ignore-beams",
+        "make_gridpack_runtime": 600,
+        "make_gridpack_threads": 8,
+        "nevents": 100,
+        "njobs": 2
+    },
+    "H_llnunu_SMEFTsim_topU3l": {
+        "rivet": "inclusive",
+        "hist": "myh1",
+        "prodmode": "",
+        "extra_opts": "--rivet-ignore-beams",
+        "make_gridpack_runtime": 600,
+        "make_gridpack_threads": 8,
+        "nevents": 100,
+        "njobs": 2
+    },
+    "H_lnuqq_SMEFTsim_topU3l": {
+        "rivet": "inclusive",
+        "hist": "myh1",
+        "prodmode": "",
+        "extra_opts": "--rivet-ignore-beams",
+        "make_gridpack_runtime": 600,
+        "make_gridpack_threads": 8,
+        "nevents": 100,
+        "njobs": 2
+    },
+    "H_nunuqq_SMEFTsim_topU3l": {
+        "rivet": "inclusive",
+        "hist": "myh1",
+        "prodmode": "",
+        "extra_opts": "--rivet-ignore-beams",
+        "make_gridpack_runtime": 600,
+        "make_gridpack_threads": 8,
+        "nevents": 100,
+        "njobs": 2
+    },
+    "tHq_SMEFTsim_topU3l": {
+        "rivet": "HiggsTemplateCrossSectionsLess",
+        "hist": "HTXS_stage1_2_pTjet30",
+        "prodmode": "TH",
+        "extra_opts": "",
+        "make_gridpack_runtime": 600,
+        "make_gridpack_threads": 8,
+        "nevents": 100,
+        "njobs": 2
+    },
+    "tHW_SMEFTsim_topU3l": {
+        "rivet": "HiggsTemplateCrossSectionsLess",
+        "hist": "HTXS_stage1_2_pTjet30",
+        "prodmode": "TH",
+        "extra_opts": "",
+        "make_gridpack_runtime": 600,
+        "make_gridpack_threads": 8,
+        "nevents": 100,
+        "njobs": 2
+    },
+    "ttH_SMEFTsim_topU3l": {
+        "rivet": "HiggsTemplateCrossSectionsLess",
+        "hist": "HTXS_stage1_2_pTjet30",
+        "prodmode": "TTH",
+        "extra_opts": "",
+        "make_gridpack_runtime": 600,
+        "make_gridpack_threads": 8,
+        "nevents": 100,
+        "njobs": 2
+    },
+    "WH_lep_SMEFTsim_topU3l": {
+        "rivet": "HiggsTemplateCrossSectionsLess",
+        "hist": "HTXS_stage1_2_pTjet30",
+        "prodmode": "WH",
+        "extra_opts": "",
+        "make_gridpack_runtime": 600,
+        "make_gridpack_threads": 8,
+        "nevents": 100,
+        "njobs": 2
+    },
+    "ZH_lep_SMEFTsim_topU3l": {
+        "rivet": "HiggsTemplateCrossSectionsLess",
+        "hist": "HTXS_stage1_2_pTjet30",
+        "prodmode": "QQ2ZH",
+        "extra_opts": "",
+        "make_gridpack_runtime": 600,
+        "make_gridpack_threads": 8,
+        "nevents": 100,
+        "njobs": 2
+    },
+    "bbH_SMEFTsim_topU3l": {
+        "rivet": "HiggsTemplateCrossSectionsLess",
+        "hist": "HTXS_stage1_2_pTjet30",
+        "prodmode": "BBH",
+        "extra_opts": "",
+        "make_gridpack_runtime": 600,
+        "make_gridpack_threads": 8,
+        "nevents": 100,
+        "njobs": 2
+    },
+    "qqH_SMEFTsim_topU3l": {
+        "rivet": "HiggsTemplateCrossSectionsLess",
+        "hist": "HTXS_stage1_2_pTjet30",
+        "prodmode": "VBF",
+        "extra_opts": "",
+        "make_gridpack_runtime": 600,
+        "make_gridpack_threads": 8,
+        "nevents": 100,
+        "njobs": 2
+    },
+    "Z_ll_prop_SMEFTsim_topU3l": {
+        "rivet": "inclusive",
+        "hist": "myh1",
+        "prodmode": "",
+        "extra_opts": "--rivet-ignore-beams",
+        "make_gridpack_runtime": 10,
+        "make_gridpack_threads": 1,
+        "nevents": 10,
+        "njobs": 2
+    },
+    "Z_qq_prop_SMEFTsim_topU3l": {
+        "rivet": "inclusive",
+        "hist": "myh1",
+        "prodmode": "",
+        "extra_opts": "--rivet-ignore-beams",
+        "make_gridpack_runtime": 10,
+        "make_gridpack_threads": 1,
+        "nevents": 10,
+        "njobs": 2
+    },
+    "Z_vv_prop_SMEFTsim_topU3l": {
+        "rivet": "inclusive",
+        "hist": "myh1",
+        "prodmode": "",
+        "extra_opts": "--rivet-ignore-beams",
+        "make_gridpack_runtime": 10,
+        "make_gridpack_threads": 1,
+        "nevents": 10,
+        "njobs": 2
+    },
+    "H_aa_prop_SMEFTsim_topU3l": {
+        "rivet": "inclusive",
+        "hist": "myh1",
+        "prodmode": "",
+        "extra_opts": "--rivet-ignore-beams",
+        "make_gridpack_runtime": 10,
+        "make_gridpack_threads": 1,
+        "nevents": 10,
+        "njobs": 2
+    },
+    "H_bb_prop_SMEFTsim_topU3l": {
+        "rivet": "inclusive",
+        "hist": "myh1",
+        "prodmode": "",
+        "extra_opts": "--rivet-ignore-beams",
+        "make_gridpack_runtime": 10,
+        "make_gridpack_threads": 1,
+        "nevents": 10,
+        "njobs": 2
+    },
+    "H_cc_prop_SMEFTsim_topU3l": {
+        "rivet": "inclusive",
+        "hist": "myh1",
+        "prodmode": "",
+        "extra_opts": "--rivet-ignore-beams",
+        "make_gridpack_runtime": 10,
+        "make_gridpack_threads": 1,
+        "nevents": 10,
+        "njobs": 2
+    },
+    "H_gg_prop_SMEFTsim_topU3l": {
+        "rivet": "inclusive",
+        "hist": "myh1",
+        "prodmode": "",
+        "extra_opts": "--rivet-ignore-beams",
+        "make_gridpack_runtime": 10,
+        "make_gridpack_threads": 1,
+        "nevents": 10,
+        "njobs": 2
+    },
+    "H_tautau_prop_SMEFTsim_topU3l": {
+        "rivet": "inclusive",
+        "hist": "myh1",
+        "prodmode": "",
+        "extra_opts": "--rivet-ignore-beams",
+        "make_gridpack_runtime": 10,
+        "make_gridpack_threads": 1,
+        "nevents": 10,
+        "njobs": 2
+    },
+    "H_WW_prop_SMEFTsim_topU3l": {
+        "rivet": "inclusive",
+        "hist": "myh1",
+        "prodmode": "",
+        "extra_opts": "--rivet-ignore-beams",
+        "make_gridpack_runtime": 600,
+        "make_gridpack_threads": 8,
+        "nevents": 100,
+        "njobs": 2
+    },
+    "H_Za_prop_SMEFTsim_topU3l": {
+        "rivet": "inclusive",
+        "hist": "myh1",
+        "prodmode": "",
+        "extra_opts": "--rivet-ignore-beams",
+        "make_gridpack_runtime": 10,
+        "make_gridpack_threads": 1,
+        "nevents": 10,
+        "njobs": 2
+    },
+    "H_ZZ_prop_SMEFTsim_topU3l": {
+        "rivet": "inclusive",
+        "hist": "myh1",
+        "prodmode": "",
+        "extra_opts": "--rivet-ignore-beams",
+        "make_gridpack_runtime": 600,
+        "make_gridpack_threads": 8,
+        "nevents": 100,
+        "njobs": 2
+    },
+    "H_mumu_prop_SMEFTsim_topU3l": {
+        "rivet": "inclusive",
+        "hist": "myh1",
+        "prodmode": "",
+        "extra_opts": "--rivet-ignore-beams",
+        "make_gridpack_runtime": 10,
+        "make_gridpack_threads": 1,
+        "nevents": 10,
+        "njobs": 2
+    },
+    "H_llll_prop_SMEFTsim_topU3l": {
+        "rivet": "inclusive",
+        "hist": "myh1",
+        "prodmode": "",
+        "extra_opts": "--rivet-ignore-beams",
+        "make_gridpack_runtime": 600,
+        "make_gridpack_threads": 8,
+        "nevents": 100,
+        "njobs": 2
+    },
+    "H_llnunu_prop_SMEFTsim_topU3l": {
+        "rivet": "inclusive",
+        "hist": "myh1",
+        "prodmode": "",
+        "extra_opts": "--rivet-ignore-beams",
+        "make_gridpack_runtime": 600,
+        "make_gridpack_threads": 8,
+        "nevents": 100,
+        "njobs": 2
+    },
+    "H_lnuqq_prop_SMEFTsim_topU3l": {
+        "rivet": "inclusive",
+        "hist": "myh1",
+        "prodmode": "",
+        "extra_opts": "--rivet-ignore-beams",
+        "make_gridpack_runtime": 600,
+        "make_gridpack_threads": 8,
+        "nevents": 100,
+        "njobs": 2
+    },
+    "H_nunuqq_prop_SMEFTsim_topU3l": {
+        "rivet": "inclusive",
+        "hist": "myh1",
+        "prodmode": "",
+        "extra_opts": "--rivet-ignore-beams",
+        "make_gridpack_runtime": 600,
+        "make_gridpack_threads": 8,
+        "nevents": 100,
+        "njobs": 2
+    },
+    "tHq_prop_SMEFTsim_topU3l": {
+        "rivet": "HiggsTemplateCrossSectionsLess",
+        "hist": "HTXS_stage1_2_pTjet30",
+        "prodmode": "TH",
+        "extra_opts": "",
+        "make_gridpack_runtime": 600,
+        "make_gridpack_threads": 8,
+        "nevents": 100,
+        "njobs": 2
+    },
+    "tHW_prop_SMEFTsim_topU3l": {
+        "rivet": "HiggsTemplateCrossSectionsLess",
+        "hist": "HTXS_stage1_2_pTjet30",
+        "prodmode": "TH",
+        "extra_opts": "",
+        "make_gridpack_runtime": 600,
+        "make_gridpack_threads": 8,
+        "nevents": 100,
+        "njobs": 2
+    },
+    "ttH_prop_SMEFTsim_topU3l": {
+        "rivet": "HiggsTemplateCrossSectionsLess",
+        "hist": "HTXS_stage1_2_pTjet30",
+        "prodmode": "TTH",
+        "extra_opts": "",
+        "make_gridpack_runtime": 600,
+        "make_gridpack_threads": 8,
+        "nevents": 100,
+        "njobs": 2
+    },
+    "WH_lep_prop_SMEFTsim_topU3l": {
+        "rivet": "HiggsTemplateCrossSectionsLess",
+        "hist": "HTXS_stage1_2_pTjet30",
+        "prodmode": "WH",
+        "extra_opts": "",
+        "make_gridpack_runtime": 600,
+        "make_gridpack_threads": 8,
+        "nevents": 100,
+        "njobs": 2
+    },
+    "ZH_lep_prop_SMEFTsim_topU3l": {
+        "rivet": "HiggsTemplateCrossSectionsLess",
+        "hist": "HTXS_stage1_2_pTjet30",
+        "prodmode": "QQ2ZH",
+        "extra_opts": "",
+        "make_gridpack_runtime": 600,
+        "make_gridpack_threads": 8,
+        "nevents": 100,
+        "njobs": 2
+    },
+    "bbH_prop_SMEFTsim_topU3l": {
+        "rivet": "HiggsTemplateCrossSectionsLess",
+        "hist": "HTXS_stage1_2_pTjet30",
+        "prodmode": "BBH",
+        "extra_opts": "",
+        "make_gridpack_runtime": 600,
+        "make_gridpack_threads": 8,
+        "nevents": 100,
+        "njobs": 2
+    },
+    "qqH_prop_SMEFTsim_topU3l": {
+        "rivet": "HiggsTemplateCrossSectionsLess",
+        "hist": "HTXS_stage1_2_pTjet30",
+        "prodmode": "VBF",
+        "extra_opts": "",
+        "make_gridpack_runtime": 600,
+        "make_gridpack_threads": 8,
+        "nevents": 100,
+        "njobs": 2
+    }
+}
