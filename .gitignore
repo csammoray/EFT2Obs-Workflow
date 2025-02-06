@@ -1,4 +1,6 @@
 .mg5
 .snakemake
+tmp
 results
 snakemake_env
+.condor_jobs

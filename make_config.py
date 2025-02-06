@@ -1,11 +1,9 @@
 import json
 
-#DECAY_PROCS = ["Z_ll", "Z_qq", "Z_vv", "H_aa", "H_bb", "H_cc", "H_gg", 
-#               "H_tautau", "H_WW", "H_Za", "H_ZZ", "H_mumu", "H_llll",
-#               "H_llnunu", "H_lnuqq",  "H_nunuqq", "H_qqqq"]
-DECAY_PROCS = ["Z_ll", "Z_qq", "Z_vv", "H_aa", "H_bb", "H_cc", "H_gg", 
-              "H_tautau", "H_WW", "H_Za", "H_ZZ", "H_mumu", "H_llll",
-              "H_llnunu", "H_lnuqq",  "H_nunuqq"]
+DECAY_PROCS = ["H_aa", "H_bb", "H_cc", "H_gg", 
+#               "Z_ll", "Z_qq", "Z_vv",
+              "H_tautau", "H_Za", "H_mumu", "H_llll",
+              "H_llnunu", "H_lnuqq",  "H_nunuqq", "H_qqqq"]
 DECAY_PROCS = ["%s_SMEFTsim_topU3l"%proc for proc in DECAY_PROCS]
 
 decay_pc = {
@@ -20,6 +18,8 @@ decay_pc = {
 PROD_PROCS = ["tHq", "tHW", "ttH", "WH_lep", "ZH_lep", "bbH", "qqH"]
 PROD_PROCS = ["%s_SMEFTsim_topU3l"%proc for proc in PROD_PROCS]
 
+#PROD_PROCS += [f"{proc}_ATLAS" for proc in PROD_PROCS]
+
 prod_modes = {
   "bbH_SMEFTsim_topU3l": "BBH",
   "qqH_SMEFTsim_topU3l": "VBF",
@@ -29,6 +29,8 @@ prod_modes = {
   "WH_lep_SMEFTsim_topU3l": "WH",
   "ZH_lep_SMEFTsim_topU3l": "QQ2ZH"
 }
+# for key in list(prod_modes.keys()):
+#   prod_modes[f"{key}_ATLAS"] = prod_modes[key]
 
 prod_pc = {
   proc: {
@@ -51,15 +53,14 @@ for proc in pc:
     pc[proc]["make_gridpack_runtime"] = 10
     pc[proc]["make_gridpack_threads"] = 1
     pc[proc]["nevents"] = 10
-    pc[proc]["njobs"] = 2
+    pc[proc]["njobs"] = 1
+    pc[proc]["prop_corr"] = False
   else:
-    pc[proc]["make_gridpack_runtime"] = 600
-    pc[proc]["make_gridpack_threads"] = 8
-    pc[proc]["nevents"] = 100
-    pc[proc]["njobs"] = 2
-
-for proc in list(pc.keys()):
-  pc[proc.replace("_SMEFTsim_topU3l", "_prop_SMEFTsim_topU3l")] = pc[proc]
+    pc[proc]["make_gridpack_runtime"] = 20
+    pc[proc]["make_gridpack_threads"] = 4
+    pc[proc]["nevents"] = 5000
+    pc[proc]["njobs"] = 20
+    pc[proc]["prop_corr"] = True
 
 with open("config.json", "w") as f:
   json.dump(pc, f, indent=4)

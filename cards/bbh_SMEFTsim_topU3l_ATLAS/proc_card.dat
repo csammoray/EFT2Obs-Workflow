@@ -1,0 +1,10 @@
+import model SMEFTsim_topU3l_MwScheme_UFO-massless
+
+set group_subprocesses True
+set gauge unitary
+
+#define p = p b b~
+
+generate p p > h b b~ SMHLOOP=0 NP=0 NPprop=0
+
+output bbH_SMEFTsim_topU3l_ATLAS

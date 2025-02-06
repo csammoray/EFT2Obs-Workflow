@@ -1,0 +1,7 @@
+import model SMEFTsim_topU3l_MwScheme_UFO-massless
+
+define p = p b b~
+
+generate p p > h t t~ SMHLOOP=0 NP=0 NPprop=0
+
+output ttH_SMEFTsim_topU3l_ATLAS
