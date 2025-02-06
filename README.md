@@ -23,7 +23,7 @@ More details about overlays: [https://apptainer.org/docs/user/main/persistent_ov
 
 One could now run the snakemake command and it will internally pull the docker (converted by apptainer) container. However, I recommend pulling it with apptainer first
 ```
-apptainer pull docker://charlotteknight/eft2obs
+apptainer pull docker://charlotteknight/eft2obs:LO
 ```
 
 To run the workflow first run:

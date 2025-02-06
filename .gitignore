@@ -4,3 +4,4 @@ tmp
 results
 snakemake_env
 .condor_jobs
+*.sif
