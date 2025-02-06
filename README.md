@@ -1,5 +1,10 @@
 # EFT2Obs-Workflow
 
+Clone the repo with the EFT2Obs submodule:
+```
+git clone --recursive https://github.com/Charlotte-Knight/EFT2Obs-Workflow.git
+```
+
 To create the snakemake environment:
 ```
 curl -Ls https://micro.mamba.pm/api/micromamba/linux-64/latest | tar -xvj bin/micromamba
@@ -15,13 +20,7 @@ To source the environment do:
 source env.sh
 ```
 
-I assume that you have apptainer installed on your system. For the time being, we need to increase the size of the temporary overlay (so you can write inside the container):
-```
-sudo apptainer config global --set "sessiondir max size" "1024"
-```
-More details about overlays: [https://apptainer.org/docs/user/main/persistent_overlays.html](https://apptainer.org/docs/user/main/persistent_overlays.html)
-
-One could now run the snakemake command and it will internally pull the docker (converted by apptainer) container. However, I recommend pulling it with apptainer first
+I assume that you have apptainer installed on your system. One could now run the snakemake command and it will internally pull the docker (converted by apptainer) container. However, I recommend pulling it with apptainer first
 ```
 apptainer pull docker://charlotteknight/eft2obs:LO
 ```
@@ -30,6 +29,8 @@ To run the workflow first run:
 ```
 snakemake --sdm apptainer --apptainer-args "--writable-tmpfs " -c 1
 ```
+
+The `-c 1` tells snakemake to use one core. Specify a greater number if desired (it probably will be).
 
 You may want to bind some additional directories such that they are visible inside the container. This is done the the `--bind` apptainer arg. For example, to bind the `/vols` directory, instead run:
 ```
