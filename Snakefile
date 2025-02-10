@@ -6,7 +6,7 @@ wildcard_constraints:
 
 configfile: "config.json"
 
-localrules: all, copy_cards, copy_restrict_cards, setup_process, auto_detect, setup_SM_gen, make_param_card, merge_yoda, get_scaling, add_versions
+localrules: all, copy_cards, copy_restrict_cards, setup_process, auto_detect, setup_SM_gen, make_param_card, merge_yoda, get_scaling, add_versions,add_versions_common,add_versions_CMS
 
 # rule all:
 #   input:
@@ -15,8 +15,13 @@ localrules: all, copy_cards, copy_restrict_cards, setup_process, auto_detect, se
 #   input:
 #     expand("results/equations/{proc}.common.json", proc=["WH_lep_SMEFTsim_topU3l", "WH_lep_SMEFTsim_topU3l_ATLAS"])
 rule all:
-  input:
-    expand("results/equations/{proc}.common.json", proc=["WH_lep_SMEFTsim_topU3l", "ZH_lep_SMEFTsim_topU3l", "ttH_SMEFTsim_topU3l"])
+ input:
+   expand("results/equations/{proc}.common.json", proc=["WH_lep_SMEFTsim_topU3l", "ZH_lep_SMEFTsim_topU3l", "ttH_SMEFTsim_topU3l"]),
+   expand("results/equations/{proc}.json", proc=["WH_lep_SMEFTsim_topU3l", "ZH_lep_SMEFTsim_topU3l", "ttH_SMEFTsim_topU3l"]),
+   expand("results/equations/{proc}.CMS.json", proc=["WH_lep_SMEFTsim_topU3l", "ZH_lep_SMEFTsim_topU3l", "ttH_SMEFTsim_topU3l"])
+# rule all:
+#   input:
+#     expand("results/equations/{proc}.common.json", proc=["WH_lep_SMEFTsim_topU3l", "ZH_lep_SMEFTsim_topU3l"])
 # rule all:
 #   input:
 #     expand("results/equations/{proc}.common.json", proc=["WH_lep_SMEFTsim_topU3l"])
@@ -229,10 +234,25 @@ rule get_scaling:
   shell:
     """
     set +u ; pushd /eft2obs ; source /eft2obs/env.sh ; popd
-    ./EFT2Obs/scripts/get_scaling.py -c results/cards/{wildcards.proc}.{wildcards.version}/config.json -i {input} --hist "/{params.runset[rivet]}/{params.runset[hist]}" --save common_json,json -o results/equations/{wildcards.proc}.{wildcards.version} --bin-labels EFT2Obs/resources/STXS_bin_labels.json --exclude-rel 0.001 --remove-empty-bins --skip-print {params.extra_args}
+    ./EFT2Obs/scripts/get_scaling.py -c results/cards/{wildcards.proc}.{wildcards.version}/config.json -i {input} --hist "/{params.runset[rivet]}/{params.runset[hist]}" --save common_json,json -o results/equations/{wildcards.proc}.{wildcards.version} --bin-labels EFT2Obs/resources/STXS_bin_labels.json --remove-empty-bins --skip-print {params.extra_args}
     """
 
 rule add_versions:
+  input:
+    branch(lookup(dpath="{proc}/prop_corr", within=config), 
+    then = expand("results/equations/{{proc}}.{version}.json", version=[1, 2]),
+    otherwise = expand("results/equations/{{proc}}.{version}.json", version=[1]))
+  output:
+    "results/equations/{proc}.json"
+  resources:
+    runtime=30
+  shell:
+    """
+    set +u ; pushd /eft2obs ; source /eft2obs/env.sh ; popd
+    ./EFT2Obs/scripts/add_scaling.py -i {input} -o {output}
+    """
+  
+rule add_versions_common:
   input:
     branch(lookup(dpath="{proc}/prop_corr", within=config), 
     then = expand("results/equations/{{proc}}.{version}.json", version=[1, 2]),
@@ -244,6 +264,20 @@ rule add_versions:
   shell:
     """
     set +u ; pushd /eft2obs ; source /eft2obs/env.sh ; popd
-    ./EFT2Obs/scripts/add_scaling.py -i {input} -o {output}
+    ./EFT2Obs/scripts/add_scaling.py -i {input} -o {output} --common
     """
-  
+
+rule add_versions_CMS:
+  input:
+    branch(lookup(dpath="{proc}/prop_corr", within=config), 
+    then = expand("results/equations/{{proc}}.{version}.json", version=[1, 2]),
+    otherwise = expand("results/equations/{{proc}}.{version}.json", version=[1]))
+  output:
+    "results/equations/{proc}.CMS.json"
+  resources:
+    runtime=30
+  shell:
+    """
+    set +u ; pushd /eft2obs ; source /eft2obs/env.sh ; popd
+    ./EFT2Obs/scripts/add_scaling.py -i {input} -o {output} --CMS
+    """
