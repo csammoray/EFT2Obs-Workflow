@@ -8,7 +8,8 @@
         "make_gridpack_threads": 1,
         "nevents": 10,
         "njobs": 1,
-        "prop_corr": false
+        "prop_corr": false,
+        "lhe": true
     },
     "H_bb_SMEFTsim_topU3l": {
         "rivet": "inclusive",
@@ -19,7 +20,8 @@
         "make_gridpack_threads": 1,
         "nevents": 10,
         "njobs": 1,
-        "prop_corr": false
+        "prop_corr": false,
+        "lhe": true
     },
     "H_cc_SMEFTsim_topU3l": {
         "rivet": "inclusive",
@@ -30,7 +32,8 @@
         "make_gridpack_threads": 1,
         "nevents": 10,
         "njobs": 1,
-        "prop_corr": false
+        "prop_corr": false,
+        "lhe": true
     },
     "H_gg_SMEFTsim_topU3l": {
         "rivet": "inclusive",
@@ -41,7 +44,8 @@
         "make_gridpack_threads": 1,
         "nevents": 10,
         "njobs": 1,
-        "prop_corr": false
+        "prop_corr": false,
+        "lhe": true
     },
     "H_tautau_SMEFTsim_topU3l": {
         "rivet": "inclusive",
@@ -52,7 +56,8 @@
         "make_gridpack_threads": 1,
         "nevents": 10,
         "njobs": 1,
-        "prop_corr": false
+        "prop_corr": false,
+        "lhe": true
     },
     "H_Za_SMEFTsim_topU3l": {
         "rivet": "inclusive",
@@ -63,7 +68,8 @@
         "make_gridpack_threads": 1,
         "nevents": 10,
         "njobs": 1,
-        "prop_corr": false
+        "prop_corr": false,
+        "lhe": true
     },
     "H_mumu_SMEFTsim_topU3l": {
         "rivet": "inclusive",
@@ -74,7 +80,8 @@
         "make_gridpack_threads": 1,
         "nevents": 10,
         "njobs": 1,
-        "prop_corr": false
+        "prop_corr": false,
+        "lhe": true
     },
     "H_llll_SMEFTsim_topU3l": {
         "rivet": "inclusive",
@@ -83,9 +90,10 @@
         "extra_opts": "--rivet-ignore-beams",
         "make_gridpack_runtime": 20,
         "make_gridpack_threads": 4,
-        "nevents": 1000,
+        "nevents": 5000,
         "njobs": 20,
-        "prop_corr": true
+        "prop_corr": true,
+        "lhe": true
     },
     "H_llnunu_SMEFTsim_topU3l": {
         "rivet": "inclusive",
@@ -94,9 +102,10 @@
         "extra_opts": "--rivet-ignore-beams",
         "make_gridpack_runtime": 20,
         "make_gridpack_threads": 4,
-        "nevents": 1000,
+        "nevents": 5000,
         "njobs": 20,
-        "prop_corr": true
+        "prop_corr": true,
+        "lhe": true
     },
     "H_lnuqq_SMEFTsim_topU3l": {
         "rivet": "inclusive",
@@ -105,9 +114,10 @@
         "extra_opts": "--rivet-ignore-beams",
         "make_gridpack_runtime": 20,
         "make_gridpack_threads": 4,
-        "nevents": 1000,
+        "nevents": 5000,
         "njobs": 20,
-        "prop_corr": true
+        "prop_corr": true,
+        "lhe": true
     },
     "H_nunuqq_SMEFTsim_topU3l": {
         "rivet": "inclusive",
@@ -116,9 +126,10 @@
         "extra_opts": "--rivet-ignore-beams",
         "make_gridpack_runtime": 20,
         "make_gridpack_threads": 4,
-        "nevents": 1000,
+        "nevents": 5000,
         "njobs": 20,
-        "prop_corr": true
+        "prop_corr": true,
+        "lhe": true
     },
     "H_qqqq_SMEFTsim_topU3l": {
         "rivet": "inclusive",
@@ -127,9 +138,10 @@
         "extra_opts": "--rivet-ignore-beams",
         "make_gridpack_runtime": 20,
         "make_gridpack_threads": 4,
-        "nevents": 1000,
+        "nevents": 5000,
         "njobs": 20,
-        "prop_corr": true
+        "prop_corr": true,
+        "lhe": true
     },
     "tHq_SMEFTsim_topU3l": {
         "rivet": "HiggsTemplateCrossSectionsLess",
@@ -138,9 +150,10 @@
         "extra_opts": "",
         "make_gridpack_runtime": 20,
         "make_gridpack_threads": 4,
-        "nevents": 1000,
+        "nevents": 5000,
         "njobs": 20,
-        "prop_corr": true
+        "prop_corr": true,
+        "lhe": false
     },
     "tHW_SMEFTsim_topU3l": {
         "rivet": "HiggsTemplateCrossSectionsLess",
@@ -149,9 +162,10 @@
         "extra_opts": "",
         "make_gridpack_runtime": 20,
         "make_gridpack_threads": 4,
-        "nevents": 1000,
+        "nevents": 5000,
         "njobs": 20,
-        "prop_corr": true
+        "prop_corr": true,
+        "lhe": false
     },
     "ttH_SMEFTsim_topU3l": {
         "rivet": "HiggsTemplateCrossSectionsLess",
@@ -160,9 +174,10 @@
         "extra_opts": "",
         "make_gridpack_runtime": 20,
         "make_gridpack_threads": 4,
-        "nevents": 500,
-        "njobs": 200,
-        "prop_corr": true
+        "nevents": 5000,
+        "njobs": 20,
+        "prop_corr": true,
+        "lhe": false
     },
     "WH_lep_SMEFTsim_topU3l": {
         "rivet": "HiggsTemplateCrossSectionsLess",
@@ -173,7 +188,8 @@
         "make_gridpack_threads": 4,
         "nevents": 5000,
         "njobs": 20,
-        "prop_corr": true
+        "prop_corr": true,
+        "lhe": false
     },
     "ZH_lep_SMEFTsim_topU3l": {
         "rivet": "HiggsTemplateCrossSectionsLess",
@@ -184,7 +200,8 @@
         "make_gridpack_threads": 4,
         "nevents": 5000,
         "njobs": 20,
-        "prop_corr": true
+        "prop_corr": true,
+        "lhe": false
     },
     "bbH_SMEFTsim_topU3l": {
         "rivet": "HiggsTemplateCrossSectionsLess",
@@ -193,9 +210,10 @@
         "extra_opts": "",
         "make_gridpack_runtime": 20,
         "make_gridpack_threads": 4,
-        "nevents": 1000,
+        "nevents": 5000,
         "njobs": 20,
-        "prop_corr": true
+        "prop_corr": true,
+        "lhe": false
     },
     "qqH_SMEFTsim_topU3l": {
         "rivet": "HiggsTemplateCrossSectionsLess",
@@ -204,8 +222,9 @@
         "extra_opts": "",
         "make_gridpack_runtime": 20,
         "make_gridpack_threads": 4,
-        "nevents": 1000,
+        "nevents": 5000,
         "njobs": 20,
-        "prop_corr": true
+        "prop_corr": true,
+        "lhe": false
     }
 }

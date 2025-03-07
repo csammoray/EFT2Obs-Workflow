@@ -168,7 +168,7 @@ def getruntime(wildcards):
   runtime = 10 + cum_time * 1.5
   return runtime
 
-rule run_gridpack:
+rule run_gridpack_yoda:
   input:
     "results/process_output/gridpack_{proc}.{version}.SM_gen.tar.gz"
   output:
@@ -177,7 +177,6 @@ rule run_gridpack:
     prodmode =    lambda wc: config[wc.proc]["prodmode"],
     nevents =    lambda wc: config[wc.proc]["nevents"],
     rivet =      lambda wc: config[wc.proc]["rivet"],
-    extra_opts = lambda wc: config[wc.proc]["extra_opts"]
   resources:
     runtime=getruntime,
     mem_mb=8000
@@ -211,6 +210,38 @@ rule run_gridpack:
     rm -r $tmpdir
     """
 
+rule run_gridpack_lhe:
+  input:
+    "results/process_output/gridpack_{proc}.{version}.SM_gen.tar.gz"
+  output:
+    "results/lhe/{proc}/{version}/events_{seed}.lhe.gz"
+  params:
+    nevents =    lambda wc: config[wc.proc]["nevents"],
+  resources:
+    runtime=getruntime,
+    mem_mb=8000
+  shell:
+    """
+    set +u ; pushd /eft2obs ; source /eft2obs/env.sh ; popd
+
+    if [[ -z ${{_CONDOR_SCRATCH_DIR}} ]] ; then
+      tmpdir=$(mktemp -d -p $(pwd)/results/process_output )
+    else
+      tmpdir=$(mktemp -d -p /tmp )
+    fi
+    tar -xf {input} -C $tmpdir
+    pushd $tmpdir
+      mkdir -p madevent/Events/GridRun
+      ./run.sh {params.nevents} {wildcards.seed}
+      mv events.lhe.gz madevent/Events/GridRun/unweighted_events.lhe.gz
+      
+      cd madevent
+      echo "0" | ./bin/madevent reweight GridRun
+    popd
+    mv ${{tmpdir}}/madevent/Events/GridRun/unweighted_events.lhe.gz {output}
+    rm -r $tmpdir
+    """
+
 rule merge_yoda:
   input:
     expand("results/yoda/{{proc}}/{{version}}/Rivet_{i}.yoda.gz", i=lambda wc: range(config[wc.proc]["njobs"]))
@@ -222,9 +253,22 @@ rule merge_yoda:
     yodamerge -o {output} {input}
     """
 
+rule merge_lhe:
+  input:
+    expand("results/lhe/{{proc}}/{{version}}/events_{i}.lhe.gz", i=lambda wc: range(config[wc.proc]["njobs"]))
+  output:
+    "results/lhe/{proc}/{version}/events.lhe"
+  shell:
+    """
+    set +u ; pushd /eft2obs ; source /eft2obs/env.sh ; popd
+    ./EFT2Obs/scripts/lhe_merge.py {output} {input}
+    """
+
 rule get_scaling:
   input:
-    "results/yoda/{proc}/{version}/Rivet.yoda"
+    branch(lookup(dpath="{proc}/lhe", within=config), 
+    then = "results/lhe/{proc}/{version}/events.lhe",
+    otherwise = "results/yoda/{proc}/{version}/Rivet.yoda")
   output:
     "results/equations/{proc}.{version}.json",
     "results/equations/{proc}.{version}.common.json"

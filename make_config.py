@@ -62,5 +62,8 @@ for proc in pc:
     pc[proc]["njobs"] = 20
     pc[proc]["prop_corr"] = True
 
+for proc in pc:
+  pc[proc]["lhe"] = proc in decay_pc
+
 with open("config.json", "w") as f:
   json.dump(pc, f, indent=4)
