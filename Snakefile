@@ -14,11 +14,21 @@ localrules: all, copy_cards, copy_restrict_cards, setup_process, auto_detect, se
 # rule all:
 #   input:
 #     expand("results/equations/{proc}.common.json", proc=["WH_lep_SMEFTsim_topU3l", "WH_lep_SMEFTsim_topU3l_ATLAS"])
+# rule all:
+#  input:
+#    expand("results/equations/{proc}.common.json", proc=["WH_lep_SMEFTsim_topU3l", "ZH_lep_SMEFTsim_topU3l", "ttH_SMEFTsim_topU3l"]),
+#    expand("results/equations/{proc}.json", proc=["WH_lep_SMEFTsim_topU3l", "ZH_lep_SMEFTsim_topU3l", "ttH_SMEFTsim_topU3l"]),
+#    expand("results/equations/{proc}.CMS.json", proc=["WH_lep_SMEFTsim_topU3l", "ZH_lep_SMEFTsim_topU3l", "ttH_SMEFTsim_topU3l"])
+# rule all:
+#  input:
+#    expand("results/equations/{proc}.common.json", proc=["H_eemm_SMEFTsim_topU3l", "H_ttmm_SMEFTsim_topU3l", "H_llll_test_SMEFTsim_topU3l"]),
+#    expand("results/equations/{proc}.json", proc=["H_eemm_SMEFTsim_topU3l", "H_ttmm_SMEFTsim_topU3l", "H_llll_test_SMEFTsim_topU3l"]),
+#    expand("results/equations/{proc}.CMS.json", proc=["H_eemm_SMEFTsim_topU3l", "H_ttmm_SMEFTsim_topU3l", "H_llll_test_SMEFTsim_topU3l"])
 rule all:
  input:
-   expand("results/equations/{proc}.common.json", proc=["WH_lep_SMEFTsim_topU3l", "ZH_lep_SMEFTsim_topU3l", "ttH_SMEFTsim_topU3l"]),
-   expand("results/equations/{proc}.json", proc=["WH_lep_SMEFTsim_topU3l", "ZH_lep_SMEFTsim_topU3l", "ttH_SMEFTsim_topU3l"]),
-   expand("results/equations/{proc}.CMS.json", proc=["WH_lep_SMEFTsim_topU3l", "ZH_lep_SMEFTsim_topU3l", "ttH_SMEFTsim_topU3l"])
+   expand("results/equations/{proc}.common.json", proc=["H_eemm_SMEFTsim_topU3l"]),
+   expand("results/equations/{proc}.json", proc=["H_eemm_SMEFTsim_topU3l"]),
+   expand("results/equations/{proc}.CMS.json", proc=["H_eemm_SMEFTsim_topU3l"])
 # rule all:
 #   input:
 #     expand("results/equations/{proc}.common.json", proc=["WH_lep_SMEFTsim_topU3l", "ZH_lep_SMEFTsim_topU3l"])

@@ -95,6 +95,42 @@
         "prop_corr": true,
         "lhe": true
     },
+    "H_llll_test_SMEFTsim_topU3l": {
+        "rivet": "inclusive",
+        "hist": "myh1",
+        "prodmode": "",
+        "extra_opts": "--rivet-ignore-beams",
+        "make_gridpack_runtime": 20,
+        "make_gridpack_threads": 4,
+        "nevents": 5000,
+        "njobs": 2,
+        "prop_corr": false,
+        "lhe": true
+    },
+    "H_eemm_SMEFTsim_topU3l": {
+        "rivet": "inclusive",
+        "hist": "myh1",
+        "prodmode": "",
+        "extra_opts": "--rivet-ignore-beams",
+        "make_gridpack_runtime": 20,
+        "make_gridpack_threads": 4,
+        "nevents": 5000,
+        "njobs": 20,
+        "prop_corr": false,
+        "lhe": true
+    },
+    "H_ttmm_SMEFTsim_topU3l": {
+        "rivet": "inclusive",
+        "hist": "myh1",
+        "prodmode": "",
+        "extra_opts": "--rivet-ignore-beams",
+        "make_gridpack_runtime": 20,
+        "make_gridpack_threads": 4,
+        "nevents": 5000,
+        "njobs": 2,
+        "prop_corr": false,
+        "lhe": true
+    },
     "H_llnunu_SMEFTsim_topU3l": {
         "rivet": "inclusive",
         "hist": "myh1",
