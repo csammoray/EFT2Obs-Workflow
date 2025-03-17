@@ -178,6 +178,69 @@ def getruntime(wildcards):
   runtime = 10 + cum_time * 1.5
   return runtime
 
+rule run_rwpoint_direct:
+  input:
+    "results/process_output/{proc}.{version}.tar.gz",
+    expand("results/cards/{{proc}}.{{version}}/{card}_card.dat", card=["param", "pythia8", "reweight", "run"])
+  output:
+    "results/direct/{proc}.{version}.{rwpoint}.txt"
+  threads:
+    lambda wc: config[wc.proc]["make_gridpack_threads"]
+  shell:
+    """
+      set +u ; pushd /eft2obs ; source /eft2obs/env.sh ; popd
+
+      if [[ -z ${{_CONDOR_SCRATCH_DIR}} ]] ; then
+        tmpdir=$(mktemp -d -p $(pwd)/results/process_output )
+      else
+        tmpdir=$(mktemp -d -p /tmp )
+      fi
+      tar -xf {input[0]} -C $tmpdir
+
+      cp results/cards/{wildcards.proc}.{wildcards.version}/*.dat ${{tmpdir}}/{wildcards.proc}.{wildcards.version}/Cards/
+      
+      setters=$(EFT2Obs/scripts/extract_setters.py ${{tmpdir}}/{wildcards.proc}.{wildcards.version}/Cards/reweight_card.dat {wildcards.rwpoint} )
+
+      pushd ${{tmpdir}}/{wildcards.proc}.{wildcards.version}
+        {{
+          echo "shower=OFF"
+          echo "reweight=OFF"
+          echo "done"
+          echo "set gridpack False"
+          echo "set nevents 100000"
+          echo $setters
+          echo "done"
+        }} > mgrunscript
+        ./bin/generate_events pilotrun --nb_core={threads} < mgrunscript > generate_events.log
+      popd
+
+      cp ${{tmpdir}}/{wildcards.proc}.{wildcards.version}/generate_events.log {output}
+      rm -r $tmpdir
+    """
+
+rule collect_direct:
+  input:
+    expand("results/direct/{{proc}}.{{version}}.{rwpoint}.txt", rwpoint=lambda wc: config[wc.proc]["rwpoints"])
+  output:
+    "results/direct/{proc}.{version}.json"
+  run:
+    import json
+    summary = {}
+    for f in input:
+      with open(f) as f:
+        log = f.read()
+      rwpoint = f.name.split(".")[-2]
+      
+      results = log.split("=== Results Summary for run: pilotrun tag: tag_1 ===")[-1].split("Nb of events")[0]
+      results = results.strip("\n")
+      print(results)
+      num = float(results.split(":")[1].split(" +- ")[0])
+      uncert = float(results.split(":")[1].split(" +- ")[1].split(" ")[0])
+      summary[rwpoint] = [num, uncert]
+
+    with open(output[0], "w") as f:
+      json.dump(summary, f, indent=2)
+
 rule run_gridpack_yoda:
   input:
     "results/process_output/gridpack_{proc}.{version}.SM_gen.tar.gz"
