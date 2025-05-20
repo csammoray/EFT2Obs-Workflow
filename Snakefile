@@ -8,33 +8,11 @@ configfile: "config.json"
 
 localrules: all, copy_cards, copy_restrict_cards, setup_process, auto_detect, setup_SM_gen, make_param_card, merge_yoda, get_scaling, add_versions,add_versions_common,add_versions_CMS
 
-# rule all:
-#   input:
-#     expand("results/equations/{proc}.common.json", proc=config.keys())
-# rule all:
-#   input:
-#     expand("results/equations/{proc}.common.json", proc=["WH_lep_SMEFTsim_topU3l", "WH_lep_SMEFTsim_topU3l_ATLAS"])
-# rule all:
-#  input:
-#    expand("results/equations/{proc}.common.json", proc=["WH_lep_SMEFTsim_topU3l", "ZH_lep_SMEFTsim_topU3l", "ttH_SMEFTsim_topU3l"]),
-#    expand("results/equations/{proc}.json", proc=["WH_lep_SMEFTsim_topU3l", "ZH_lep_SMEFTsim_topU3l", "ttH_SMEFTsim_topU3l"]),
-#    expand("results/equations/{proc}.CMS.json", proc=["WH_lep_SMEFTsim_topU3l", "ZH_lep_SMEFTsim_topU3l", "ttH_SMEFTsim_topU3l"])
-# rule all:
-#  input:
-#    expand("results/equations/{proc}.common.json", proc=["H_eemm_SMEFTsim_topU3l", "H_ttmm_SMEFTsim_topU3l", "H_llll_test_SMEFTsim_topU3l"]),
-#    expand("results/equations/{proc}.json", proc=["H_eemm_SMEFTsim_topU3l", "H_ttmm_SMEFTsim_topU3l", "H_llll_test_SMEFTsim_topU3l"]),
-#    expand("results/equations/{proc}.CMS.json", proc=["H_eemm_SMEFTsim_topU3l", "H_ttmm_SMEFTsim_topU3l", "H_llll_test_SMEFTsim_topU3l"])
 rule all:
  input:
    expand("results/equations/{proc}.common.json", proc=["H_eemm_SMEFTsim_topU3l"]),
    expand("results/equations/{proc}.json", proc=["H_eemm_SMEFTsim_topU3l"]),
    expand("results/equations/{proc}.CMS.json", proc=["H_eemm_SMEFTsim_topU3l"])
-# rule all:
-#   input:
-#     expand("results/equations/{proc}.common.json", proc=["WH_lep_SMEFTsim_topU3l", "ZH_lep_SMEFTsim_topU3l"])
-# rule all:
-#   input:
-#     expand("results/equations/{proc}.common.json", proc=["WH_lep_SMEFTsim_topU3l"])
 
 def get_copy_cards_sed_line(wildcards):
   if wildcards.version == "1":
@@ -49,14 +27,14 @@ rule copy_cards:
     expand("cards/{{proc}}/{card}_card.dat", card=["proc", "pythia8", "run"])
   output:
     expand("results/cards/{{proc}}.{{version}}/{card}_card.dat", card=["proc", "pythia8", "run"])
-  params:
-    sed_line = get_copy_cards_sed_line
+  # TODO: reintroduce this for switching on new physics
+  # params:
+  #   sed_line = get_copy_cards_sed_line
   shell:
     """
     ls results/cards
     cp cards/{wildcards.proc}/* results/cards/{wildcards.proc}.{wildcards.version}/
     sed -i 's/{wildcards.proc}/{wildcards.proc}.{wildcards.version}/g' results/cards/{wildcards.proc}.{wildcards.version}/proc_card.dat
-    {params.sed_line}
     """
 
 rule copy_restrict_cards:
@@ -277,7 +255,7 @@ rule run_gridpack_yoda:
       ./bin/madevent shower GridRun < mgrunscript
     popd
 
-    cp EFT2Obs/RivetPlugins/HiggsTemplateCrossSectionsLess.cc /eft2obs/RivetPlugins/HiggsTemplateCrossSectionsLess.cc
+    cp EFT2Obs/RivetPlugins/CMS_2025_I2872501.cc /eft2obs/RivetPlugins/CMS_2025_I2872501.cc
     pushd /eft2obs ; ./setup/setup_rivet_plugins.sh ; popd
     rivet --analysis={params.rivet} $tmpdir/events.hepmc -o {output}
     rm -r $tmpdir
@@ -351,7 +329,7 @@ rule get_scaling:
   shell:
     """
     set +u ; pushd /eft2obs ; source /eft2obs/env.sh ; popd
-    ./EFT2Obs/scripts/get_scaling.py -c results/cards/{wildcards.proc}.{wildcards.version}/config.json -i {input} --hist "/{params.runset[rivet]}/{params.runset[hist]}" --save common_json,json -o results/equations/{wildcards.proc}.{wildcards.version} --bin-labels EFT2Obs/resources/STXS_bin_labels.json --remove-empty-bins --skip-print {params.extra_args}
+    ./EFT2Obs/scripts/get_scaling.py -c results/cards/{wildcards.proc}.{wildcards.version}/config.json -i {input} --hist "/{params.runset[rivet]}/{params.runset[hist]}" --save common_json,json -o results/equations/{wildcards.proc}.{wildcards.version} --bin-labels EFT2Obs/resources/diff_bin_labels.json --remove-empty-bins --skip-print {params.extra_args}
     """
 
 rule add_versions:
