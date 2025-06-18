@@ -67,6 +67,8 @@ namespace Rivet {
 
       book(_histo, "hist", 1, 0, 100000);
       book(_h_ZZ_pth, "pt_h", {0,10,20,30,45,60,80,120,200,10000});
+      book(_h_ZZ_pth_incl, "pt_h_incl", 1, 0, 10000);
+      book(_h_ZZ_mz2, "m_z2", 15, 0, 60);
       // TODO: Define these two
       // book(_h_ZZ_deta, "deta_jj", {0.0,1.6,3.0,1000});
       // book(_h_ZZ_deltaphijj, "deltaphijj", {-M_PI, -M_PI/2, 0, M_PI/2, M_PI});
@@ -175,23 +177,33 @@ namespace Rivet {
       if (!zmass_result.passFidSel) vetoEvent;
 
       FourMomentum ZZsystem;
+      FourMomentum Z2cand;
       for (int idx : zmass_result.z_leps_idx) {
         ZZsystem += dressed_leptons[idx].momentum();
+  if (idx > 1) {
+    std::cout << idx << std::endl;
+          Z2cand += dressed_leptons[idx].momentum();    
+        }
       }
 
       double m4l = ZZsystem.mass();
       double pT4l = ZZsystem.pT();
+      double mz2 = Z2cand.mass();
 
       if (m4l < 105.0 || m4l > 160.0) vetoEvent;
 
       ++_nEventsFinal;
       _h_ZZ_pth->fill(pT4l / GeV);
+      _h_ZZ_pth_incl->fill(pT4l / GeV);
+      _h_ZZ_mz2->fill(mz2 / GeV);
     }
 
     void finalize(){
       MSG_INFO("Events: " << _nEventsTotal);
       MSG_INFO("Selected: " << _nEventsFinal);
       scale(_h_ZZ_pth, crossSection() / femtobarn * BR / sumOfWeights());
+      scale(_h_ZZ_pth_incl, crossSection() / femtobarn * BR / sumOfWeights());
+      scale(_h_ZZ_mz2, crossSection() / femtobarn * BR /sumOfWeights());
     }
 
   private:
@@ -222,6 +234,8 @@ namespace Rivet {
     size_t _nEventsFinal;
     Histo1DPtr _histo;
     Histo1DPtr _h_ZZ_pth;
+    Histo1DPtr _h_ZZ_pth_incl;
+    Histo1DPtr _h_ZZ_mz2;
     // H > 4l BR
     const double BR = 0.000128;
     // TODO: Define histos as

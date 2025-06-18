@@ -39,4 +39,8 @@ PDF:pSet=LHAPDF6:NNPDF31_nnlo_hessian_pdfas
 !
 25:m0 = 125.0
 25:onMode = off
-25:onIfMatch = 22 22
+23:m0 = 91.1876
+23:onMode = off
+25:onIfMatch = 23 23
+23:onIfMatch = 11 -11
+23:onIfMatch = 13 -13

@@ -10,31 +10,31 @@ localrules: all, copy_cards, copy_restrict_cards, setup_process, auto_detect, se
 
 rule all:
  input:
-   expand("results/equations/{proc}.common.json", proc=["H_eemm_SMEFTsim_topU3l"]),
-   expand("results/equations/{proc}.json", proc=["H_eemm_SMEFTsim_topU3l"]),
-   expand("results/equations/{proc}.CMS.json", proc=["H_eemm_SMEFTsim_topU3l"])
+   expand("results/equations/{proc}.common.json", proc=["qqH_SMEFTsim_topU3l"]),
+   expand("results/equations/{proc}.json", proc=["qqH_SMEFTsim_topU3l"]),
+   expand("results/equations/{proc}.CMS.json", proc=["qqH_SMEFTsim_topU3l"])
 
 def get_copy_cards_sed_line(wildcards):
   if wildcards.version == "1":
-    return f"sed -i 's/NP=0/NP<=1/g' results/cards/{wildcards.proc}.{wildcards.version}/proc_card.dat"
+    return f"sed -i 's/NP_TBC=0/NP<=1/g; s/NPprop_TBC=0/NPprop=0/g' results/cards/{wildcards.proc}.{wildcards.version}/proc_card.dat"
   if wildcards.version == "2":
-    return f"sed -i 's/NPprop=0/NPprop<=2/g' results/cards/{wildcards.proc}.{wildcards.version}/proc_card.dat"
+    return f"sed -i 's/NPprop_TBC=0/NPprop<=2/g; s/NP_TBC=0/NP=0/g' results/cards/{wildcards.proc}.{wildcards.version}/proc_card.dat"
   else:
-    return ""
+    return f"sed -i 's/NPprop_TBC=0/NPprop=0/g; s/NP_TBC=0/NP=0/g' results/cards/{wildcards.proc}.{wildcards.version}/proc_card.dat"
 
 rule copy_cards:
   input:
     expand("cards/{{proc}}/{card}_card.dat", card=["proc", "pythia8", "run"])
   output:
     expand("results/cards/{{proc}}.{{version}}/{card}_card.dat", card=["proc", "pythia8", "run"])
-  # TODO: reintroduce this for switching on new physics
-  # params:
-  #   sed_line = get_copy_cards_sed_line
+  params:
+    sed_line = get_copy_cards_sed_line
   shell:
     """
     ls results/cards
     cp cards/{wildcards.proc}/* results/cards/{wildcards.proc}.{wildcards.version}/
     sed -i 's/{wildcards.proc}/{wildcards.proc}.{wildcards.version}/g' results/cards/{wildcards.proc}.{wildcards.version}/proc_card.dat
+    {params.sed_line}
     """
 
 rule copy_restrict_cards:
@@ -62,7 +62,7 @@ rule setup_process:
     rm -rf ${{PROC_DIR}}/{wildcards.proc}.{wildcards.version}
     ./EFT2Obs/scripts/setup_process.sh {wildcards.proc}.{wildcards.version}
     
-    pushd ${{PROC_DIR}} ; set -e ; tar -czf {wildcards.proc}.{wildcards.version}.tar.gz {wildcards.proc}.{wildcards.version} ; set +e ; rm -r {wildcards.proc}.{wildcards.version} ; popd
+    pushd ${{PROC_DIR}} ; set +e ; tar -czf {wildcards.proc}.{wildcards.version}.tar.gz {wildcards.proc}.{wildcards.version} ; set -e ; rm -r {wildcards.proc}.{wildcards.version} ; popd
     """
 
 rule auto_detect:
@@ -76,7 +76,7 @@ rule auto_detect:
     set +u ; pushd /eft2obs ; source /eft2obs/env.sh ; popd
     pushd ${{PROC_DIR}} ; rm -rf {wildcards.proc}.{wildcards.version} ; tar -xf {wildcards.proc}.{wildcards.version}.tar.gz ; popd
     ./EFT2Obs/scripts/setup_model_for_proc.sh {wildcards.proc}.{wildcards.version}
-    ./EFT2Obs/scripts/auto_detect_operators.py -p {wildcards.proc}.{wildcards.version} --noValidation --def-val 1.0
+    ./EFT2Obs/scripts/auto_detect_operators.py -p {wildcards.proc}.{wildcards.version} --noValidation --def-val 1
     rm -r ${{PROC_DIR}}/{wildcards.proc}.{wildcards.version}
     """
 
@@ -93,7 +93,7 @@ rule setup_SM_gen:
     tar -xf results/process_output/{wildcards.proc}.0.tar.gz -C $tmpdir
     pushd $tmpdir
       mv {wildcards.proc}.0 {wildcards.proc}.{wildcards.version}.SM_gen
-      set -e ; tar -czf {wildcards.proc}.{wildcards.version}.SM_gen.tar.gz {wildcards.proc}.{wildcards.version}.SM_gen ; set +e
+      set +e ; tar -czf {wildcards.proc}.{wildcards.version}.SM_gen.tar.gz {wildcards.proc}.{wildcards.version}.SM_gen ; set -e
       mv {wildcards.proc}.{wildcards.version}.SM_gen.tar.gz ../
     popd
     rm -r $tmpdir
@@ -229,8 +229,8 @@ rule run_gridpack_yoda:
     nevents =    lambda wc: config[wc.proc]["nevents"],
     rivet =      lambda wc: config[wc.proc]["rivet"],
   resources:
-    runtime=getruntime,
-    mem_mb=8000
+    runtime=100,
+    mem_mb=50000
   shell:
     """
     set +u ; pushd /eft2obs ; source /eft2obs/env.sh ; popd
@@ -255,7 +255,9 @@ rule run_gridpack_yoda:
       ./bin/madevent shower GridRun < mgrunscript
     popd
 
+    cp EFT2Obs/RivetPlugins/HiggsTemplateCrossSectionsLess.cc /eft2obs/RivetPlugins/HiggsTemplateCrossSectionsLess.cc
     cp EFT2Obs/RivetPlugins/CMS_2025_I2872501.cc /eft2obs/RivetPlugins/CMS_2025_I2872501.cc
+    cp EFT2Obs/RivetPlugins/CMS_2025_I2915441.cc /eft2obs/RivetPlugins/CMS_2025_I2915441.cc
     pushd /eft2obs ; ./setup/setup_rivet_plugins.sh ; popd
     rivet --analysis={params.rivet} $tmpdir/events.hepmc -o {output}
     rm -r $tmpdir
@@ -317,7 +319,7 @@ rule merge_lhe:
 
 rule get_scaling:
   input:
-    branch(lookup(dpath="{proc}/lhe", within=config), 
+    branch(lookup(dpath="{proc}/lhe", within=config),
     then = "results/lhe/{proc}/{version}/events.lhe",
     otherwise = "results/yoda/{proc}/{version}/Rivet.yoda")
   output:

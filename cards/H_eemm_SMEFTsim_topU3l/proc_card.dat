@@ -1,4 +1,4 @@
-import model SMEFTsim_topU3l_MwScheme_UFO-decay_noYukawa
+import model SMEFTsim_topU3l_MwScheme_UFO-decay_noYukawa_prop
 
 define l+ = e+ mu+ ta+
 define l- = e- mu- ta-
