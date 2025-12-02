@@ -5,3 +5,6 @@ results
 snakemake_env
 .condor_jobs
 *.sif
+
+# Miniconda installer files
+Miniconda3-latest-Linux-x86_64.sh*
