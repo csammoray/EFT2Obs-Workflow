@@ -3,6 +3,6 @@ import model SMEFTsim_topU3l_MwScheme_UFO-decay_noYukawa
 define l+ = e+ mu+
 define l- = e- mu-
 
-generate g g > h NP=0, h > l+ l- l+ l- NP_TBC=0 SMHLOOP=0 NPprop_TBC=0
+generate g g > h NP=0, h > l+ l- l+ l- NP_TBC=0 NPprop_TBC=0 SMHLOOP=0
 
 output H_llll_SMEFTsim_topU3l -nojpeg

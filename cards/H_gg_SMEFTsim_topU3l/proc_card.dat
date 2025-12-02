@@ -1,5 +1,0 @@
-import model SMEFTsim_topU3l_MwScheme_UFO-decay
-
-generate g g > h NP=0 NPprop=0 SMHLOOP=1, h > g g NP_TBC=0 SMHLOOP=1 NPprop_TBC=0
-
-output H_gg_SMEFTsim_topU3l -nojpeg

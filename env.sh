@@ -1,11 +1,6 @@
-export MAMBA_ROOT_PREFIX=${PWD}/snakemake_env
-eval "$(./snakemake_env/micromamba shell hook -s posix)"
-micromamba activate snakemake
+mamba activate /eos/user/c/csammora/conda_envs/envs/snakemake
 
 export EFT2OBS_DIR=/eft2obs
-export PROC_DIR=$(pwd)/results/process_output
-export CARDS_DIR=$(pwd)/results/cards
-export TMPDIR=$(pwd)/tmp
-
-cp resources/diff_bin_labels.json EFT2Obs/resources
-cp resources/CMS_2025_I2872501.cc EFT2Obs/RivetPlugins
+export PROC_DIR=/eos/user/c/csammora/EFT2Obs-Workflow/results/process_output
+export CARDS_DIR=/eos/user/c/csammora/EFT2Obs-Workflow/results/cards
+export TMPDIR=/eos/user/c/csammora/EFT2Obs-Workflow/tmp

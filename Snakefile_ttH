@@ -10,9 +10,9 @@ localrules: all, copy_cards, copy_restrict_cards, setup_process, auto_detect, se
 
 rule all:
  input:
-   expand("/eos/user/c/csammora/EFT2Obs-Workflow/results/equations/{proc}.common.json", proc=["H_llll_SMEFTsim_topU3l_incl"]),
-   expand("/eos/user/c/csammora/EFT2Obs-Workflow/results/equations/{proc}.json", proc=["H_llll_SMEFTsim_topU3l_incl"]),
-   expand("/eos/user/c/csammora/EFT2Obs-Workflow/results/equations/{proc}.CMS.json", proc=["H_llll_SMEFTsim_topU3l_incl"])
+   expand("/eos/user/c/csammora/EFT2Obs-Workflow/results/equations/{proc}.common.json", proc=["ttH_SMEFTsim_topU3l"]),
+   expand("/eos/user/c/csammora/EFT2Obs-Workflow/results/equations/{proc}.json", proc=["ttH_SMEFTsim_topU3l"]),
+   expand("/eos/user/c/csammora/EFT2Obs-Workflow/results/equations/{proc}.CMS.json", proc=["ttH_SMEFTsim_topU3l"])
 
 def get_copy_cards_sed_line(wildcards):
   if wildcards.version == "1":
@@ -76,7 +76,7 @@ rule auto_detect:
     set +u ; pushd /eft2obs ; source /eft2obs/env.sh ; popd
     pushd ${{PROC_DIR}} ; rm -rf {wildcards.proc}.{wildcards.version} ; tar -xf {wildcards.proc}.{wildcards.version}.tar.gz ; popd
     ./EFT2Obs/scripts/setup_model_for_proc.sh {wildcards.proc}.{wildcards.version}
-    ./EFT2Obs/scripts/auto_detect_operators.py -p {wildcards.proc}.{wildcards.version} --noValidation --def-val 0.01
+    ./EFT2Obs/scripts/auto_detect_operators.py -p {wildcards.proc}.{wildcards.version} --noValidation --def-val 1
     rm -r ${{PROC_DIR}}/{wildcards.proc}.{wildcards.version}
     """
 
@@ -255,6 +255,7 @@ rule run_gridpack_yoda:
       ./bin/madevent shower GridRun < mgrunscript
     popd
 
+    cp EFT2Obs/RivetPlugins/HiggsTemplateCrossSectionsLess.cc /eft2obs/RivetPlugins/HiggsTemplateCrossSectionsLess.cc
     cp EFT2Obs/RivetPlugins/CMS_2025_I2872501.cc /eft2obs/RivetPlugins/CMS_2025_I2872501.cc
     pushd /eft2obs ; ./setup/setup_rivet_plugins.sh ; popd
     rivet --analysis={params.rivet} $tmpdir/events.hepmc -o {output}
@@ -351,7 +352,7 @@ rule add_versions_common:
   input:
     branch(lookup(dpath="{proc}/prop_corr", within=config), 
     then = expand("/eos/user/c/csammora/EFT2Obs-Workflow/results/equations/{{proc}}.{version}.json", version=[1, 2]),
-    otherwise = expand("/eos/user/c/csammora/EFT2Obs-Workflow/results/equations/{{proc}}.{version}.json", version=[1]))
+    otherwise = expand("results/equations/{{proc}}.{version}.json", version=[1]))
   output:
     "/eos/user/c/csammora/EFT2Obs-Workflow/results/equations/{proc}.common.json"
   resources:

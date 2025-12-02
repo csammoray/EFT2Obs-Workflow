@@ -1,0 +1,7 @@
+Rivet 3.1.9 running on machine lxplus9104.cern.ch (x86_64) at 2025-11-25 15:40:53
+Could not read from '/eos/user/c/csammora/EFT2Obs-Workflow/results/mZ2/process_output/tmp.8SVBrSNHLG/events.hepmc' (error=basic_string::_M_replace_aux)
+Rivet.AnalysisLoader: WARN  Ignoring duplicate plugin analysis called 'CMS_2019_I1744604'
+Rivet.AnalysisLoader: WARN  Ignoring duplicate plugin analysis called 'ATLAS_2019_I1734263'
+
+The MCnet usage guidelines apply to Rivet: see http://www.montecarlonet.org/GUIDELINES
+Please acknowledge Rivet in results made using it, and cite https://arxiv.org/abs/1912.05451

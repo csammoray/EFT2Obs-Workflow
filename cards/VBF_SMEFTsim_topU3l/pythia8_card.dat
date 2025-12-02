@@ -12,7 +12,6 @@ Beams:setProductionScalesFromLHEF = on
 SLHA:minMassSM = 1000.
 ParticleDecays:limitTau0 = on
 ParticleDecays:tau0Max = 10
-ParticleDecays:allowPhotonRadiation = on
 !
 ! CP5 settings https://github.com/cms-sw/cmssw/blob/b357c9b790688b026eeedfc8c5ba6d7913dd8391/Configuration/Generator/python/MCTunes2017/PythiaCP5Settings_cfi.py
 Tune:pp=14
