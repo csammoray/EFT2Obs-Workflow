@@ -1,7 +1,7 @@
 {
     "WH_lep_SMEFTsim_topU3l_CPV": {
         "rivet": "CMS_2025_I2872501",
-        "hist": ["incl", "pt_h", "m_z2"],
+        "hist": ["m_z2_accTest"],
         "prodmode": "WH",
         "extra_opts": "--rivet-ignore-beams",
         "make_gridpack_runtime": 20,
@@ -13,7 +13,7 @@
     },
     "ZH_lep_SMEFTsim_topU3l_CPV": {
         "rivet": "CMS_2025_I2872501",
-        "hist": ["incl", "pt_h", "m_z2"],
+        "hist": ["m_z2_accTest"],
         "prodmode": "QQ2ZH",
         "extra_opts": "--rivet-ignore-beams",
         "make_gridpack_runtime": 20,
@@ -25,7 +25,7 @@
     },
     "qqH_SMEFTsim_topU3l_CPV": {
         "rivet": "CMS_2025_I2872501",
-        "hist": ["incl", "pt_h", "m_z2"],
+        "hist": ["m_z2_accTest"],
         "prodmode": "",
         "extra_opts": "--rivet-ignore-beams",
         "make_gridpack_runtime": 20,
@@ -33,6 +33,18 @@
         "nevents": 1000,
         "njobs": 100,
         "prop_corr": true,
+        "lhe": false
+    },
+    "ggH_SMEFTsim_topU3l_CPV": {
+        "rivet": "CMS_2025_I2872501",
+        "hist": ["incl"],
+        "prodmode": "GGF",
+        "extra_opts": "--rivet-ignore-beams",
+        "make_gridpack_runtime": 20,
+        "make_gridpack_threads": 4,
+        "nevents": 1000,
+        "njobs": 100,
+        "prop_corr": false,
         "lhe": false
     },
     "H_llll_SMEFTsim_topU3l_incl": {
@@ -49,7 +61,7 @@
     },
     "H_llll_SMEFTsim_topU3l_CPV": {
         "rivet": "CMS_2025_I2872501",
-        "hist": ["incl", "pt_h", "m_z2"],
+        "hist": ["m_z2_accTest"],
         "prodmode": "",
         "extra_opts": "--rivet-ignore-beams",
         "make_gridpack_runtime": 20,
@@ -85,7 +97,7 @@
     },
     "ttH_SMEFTsim_topU3l_CPV": {
         "rivet": "CMS_2025_I2872501",
-        "hist": ["incl", "pt_h", "m_z2"],
+        "hist": ["m_z2_accTest"],
         "prodmode": "",
         "extra_opts": "--rivet-ignore-beams",
         "make_gridpack_runtime": 20,

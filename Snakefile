@@ -3,7 +3,8 @@ container:
 
 configfile: "config.json"
 
-PROCESSES = ["H_llll_SMEFTsim_topU3l_CPV", "WH_lep_SMEFTsim_topU3l_CPV", "ZH_lep_SMEFTsim_topU3l_CPV", "qqH_SMEFTsim_topU3l_CPV", "ttH_SMEFTsim_topU3l_CPV"]
+# PROCESSES = ["H_llll_SMEFTsim_topU3l_CPV", "ggH_SMEFTsim_topU3l_CPV", "qqH_SMEFTsim_topU3l_CPV", "WH_lep_SMEFTsim_topU3l_CPV", "ZH_lep_SMEFTsim_topU3l_CPV", "ttH_SMEFTsim_topU3l_CPV"]
+PROCESSES = ["ggH_SMEFTsim_topU3l_CPV"]
 
 wildcard_constraints:
   version = r"[0-9]+",
@@ -25,57 +26,57 @@ localrules: all, copy_cards, copy_restrict_cards, setup_process, auto_detect, se
 FINAL_OUTPUT = []
 for proc in PROCESSES:
     for hist in getHists(proc):
-        FINAL_OUTPUT.append(f"/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/CPV/equations/{proc}.{hist}.common.json")
-        FINAL_OUTPUT.append(f"/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/CPV/equations/{proc}.{hist}.json")
-        FINAL_OUTPUT.append(f"/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/CPV/equations/{proc}.{hist}.CMS.json")
+        FINAL_OUTPUT.append(f"/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/finalParam/ggH_test/equations/{proc}.{hist}.common.json")
+        FINAL_OUTPUT.append(f"/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/finalParam/ggH_test/equations/{proc}.{hist}.json")
+        FINAL_OUTPUT.append(f"/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/finalParam/ggH_test/equations/{proc}.{hist}.CMS.json")
 rule all:
   input:
     FINAL_OUTPUT
 
 # rule all:
 #  input:
-#    expand("/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/CPV/equations/{proc}.common.json", proc=["H_llll_SMEFTsim_topU3l", "H_llll_SMEFTsim_topU3l_incl"]),
-#    expand("/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/CPV/equations/{proc}.json", proc=["H_llll_SMEFTsim_topU3l", "H_llll_SMEFTsim_topU3l_incl"]),
-#    expand("/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/CPV/equations/{proc}.CMS.json", proc=["H_llll_SMEFTsim_topU3l", "H_llll_SMEFTsim_topU3l_incl"])
+#    expand("/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/finalParam/ggH_test/equations/{proc}.common.json", proc=["H_llll_SMEFTsim_topU3l", "H_llll_SMEFTsim_topU3l_incl"]),
+#    expand("/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/finalParam/ggH_test/equations/{proc}.json", proc=["H_llll_SMEFTsim_topU3l", "H_llll_SMEFTsim_topU3l_incl"]),
+#    expand("/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/finalParam/ggH_test/equations/{proc}.CMS.json", proc=["H_llll_SMEFTsim_topU3l", "H_llll_SMEFTsim_topU3l_incl"])
 
 def get_copy_cards_sed_line(wildcards):
   if wildcards.version == "1":
-    return f"sed -i 's/NP_TBC=0/NP<=1/g; s/NPprop_TBC=0/NPprop=0/g' /eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/CPV/cards/{wildcards.proc}.{wildcards.version}/proc_card.dat"
+    return f"sed -i 's/NP_TBC=0/NP<=1/g; s/NPprop_TBC=0/NPprop=0/g' /eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/finalParam/ggH_test/cards/{wildcards.proc}.{wildcards.version}/proc_card.dat"
   if wildcards.version == "2":
-    return f"sed -i 's/NPprop_TBC=0/NPprop<=2/g; s/NP_TBC=0/NP=0/g' /eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/CPV/cards/{wildcards.proc}.{wildcards.version}/proc_card.dat"
+    return f"sed -i 's/NPprop_TBC=0/NPprop<=2/g; s/NP_TBC=0/NP=0/g' /eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/finalParam/ggH_test/cards/{wildcards.proc}.{wildcards.version}/proc_card.dat"
   else:
-    return f"sed -i 's/NPprop_TBC=0/NPprop=0/g; s/NP_TBC=0/NP=0/g' /eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/CPV/cards/{wildcards.proc}.{wildcards.version}/proc_card.dat"
+    return f"sed -i 's/NPprop_TBC=0/NPprop=0/g; s/NP_TBC=0/NP=0/g' /eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/finalParam/ggH_test/cards/{wildcards.proc}.{wildcards.version}/proc_card.dat"
 
 rule copy_cards:
   input:
     expand("cards/{{proc}}/{card}_card.dat", card=["proc", "pythia8", "run"])
   output:
-    expand("/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/CPV/cards/{{proc}}.{{version}}/{card}_card.dat", card=["proc", "pythia8", "run"])
+    expand("/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/finalParam/ggH_test/cards/{{proc}}.{{version}}/{card}_card.dat", card=["proc", "pythia8", "run"])
   params:
     sed_line = get_copy_cards_sed_line
   shell:
     """
-    ls /eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/CPV/cards
-    cp cards/{wildcards.proc}/* /eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/CPV/cards/{wildcards.proc}.{wildcards.version}/
-    sed -i 's/{wildcards.proc}/{wildcards.proc}.{wildcards.version}/g' /eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/CPV/cards/{wildcards.proc}.{wildcards.version}/proc_card.dat
+    ls /eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/finalParam/ggH_test/cards
+    cp cards/{wildcards.proc}/* /eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/finalParam/ggH_test/cards/{wildcards.proc}.{wildcards.version}/
+    sed -i 's/{wildcards.proc}/{wildcards.proc}.{wildcards.version}/g' /eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/finalParam/ggH_test/cards/{wildcards.proc}.{wildcards.version}/proc_card.dat
     {params.sed_line}
     """
 
 rule copy_restrict_cards:
   output:
-    "/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/CPV/cards/restrict_cards/copied"
+    "/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/finalParam/ggH_test/cards/restrict_cards/copied"
   shell:
     """
-    cp -r cards/restrict_cards /eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/CPV/cards/
-    touch /eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/CPV/cards/restrict_cards/copied
+    cp -r cards/restrict_cards /eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/finalParam/ggH_test/cards/
+    touch /eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/finalParam/ggH_test/cards/restrict_cards/copied
     """
 
 rule setup_process:
   input:
-    "/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/CPV/cards/{proc}.{version}/proc_card.dat",
-    "/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/CPV/cards/restrict_cards/copied"
+    "/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/finalParam/ggH_test/cards/{proc}.{version}/proc_card.dat",
+    "/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/finalParam/ggH_test/cards/restrict_cards/copied"
   output:
-    "/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/CPV/process_output/{proc}.{version}.tar.gz",
+    "/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/finalParam/ggH_test/process_output/{proc}.{version}.tar.gz",
   resources:
     runtime=10
   shell:
@@ -91,30 +92,30 @@ rule setup_process:
 
 rule auto_detect:
   input:
-    "/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/CPV/process_output/{proc}.{version}.tar.gz"
+    "/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/finalParam/ggH_test/process_output/{proc}.{version}.tar.gz"
   output:
-    "/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/CPV/cards/{proc}.{version}/reweight_card.dat",
-    "/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/CPV/cards/{proc}.{version}/config.json"
+    "/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/finalParam/ggH_test/cards/{proc}.{version}/reweight_card.dat",
+    "/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/finalParam/ggH_test/cards/{proc}.{version}/config.json"
   shell:
     """
     set +u ; pushd /eft2obs ; source /eft2obs/env.sh ; popd
     pushd ${{PROC_DIR}} ; rm -rf {wildcards.proc}.{wildcards.version} ; tar -xf {wildcards.proc}.{wildcards.version}.tar.gz ; popd
     ./EFT2Obs/scripts/setup_model_for_proc.sh {wildcards.proc}.{wildcards.version}
-    ./EFT2Obs/scripts/auto_detect_operators.py -p {wildcards.proc}.{wildcards.version} -b SMEFT,SMEFTCPV --noValidation --def-val 0.01
+    ./EFT2Obs/scripts/auto_detect_operators.py -p {wildcards.proc}.{wildcards.version} -b SMEFT,SMEFTcpv --noValidation --def-val 0.01
     rm -r ${{PROC_DIR}}/{wildcards.proc}.{wildcards.version}
     """
 
 rule setup_SM_gen:
   input:
-    "/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/CPV/process_output/{proc}.0.tar.gz",
-    expand("/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/CPV/cards/{{proc}}.{{version}}/{card}_card.dat", card=["param", "proc", "pythia8", "reweight", "run"])
+    "/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/finalParam/ggH_test/process_output/{proc}.0.tar.gz",
+    expand("/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/finalParam/ggH_test/cards/{{proc}}.{{version}}/{card}_card.dat", card=["param", "proc", "pythia8", "reweight", "run"])
   output:
-    "/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/CPV/process_output/{proc}.{version}.SM_gen.tar.gz",
-    expand("/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/CPV/cards/{{proc}}.{{version}}.SM_gen/{card}_card.dat", card=["param", "proc", "pythia8", "reweight", "run"])
+    "/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/finalParam/ggH_test/process_output/{proc}.{version}.SM_gen.tar.gz",
+    expand("/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/finalParam/ggH_test/cards/{{proc}}.{{version}}.SM_gen/{card}_card.dat", card=["param", "proc", "pythia8", "reweight", "run"])
   shell:
     """
-    tmpdir=$(mktemp -d -p /eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/CPV/process_output/)
-    tar -xf /eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/CPV/process_output/{wildcards.proc}.0.tar.gz -C $tmpdir
+    tmpdir=$(mktemp -d -p /eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/finalParam/ggH_test/process_output/)
+    tar -xf /eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/finalParam/ggH_test/process_output/{wildcards.proc}.0.tar.gz -C $tmpdir
     pushd $tmpdir
       mv {wildcards.proc}.0 {wildcards.proc}.{wildcards.version}.SM_gen
       set +e ; tar -czf {wildcards.proc}.{wildcards.version}.SM_gen.tar.gz {wildcards.proc}.{wildcards.version}.SM_gen ; set -e
@@ -122,30 +123,30 @@ rule setup_SM_gen:
     popd
     rm -r $tmpdir
 
-    cp /eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/CPV/cards/{wildcards.proc}.{wildcards.version}/* /eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/CPV/cards/{wildcards.proc}.{wildcards.version}.SM_gen/
-    ./EFT2Obs/scripts/proc_lines_to_reweight_lines.py /eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/CPV/cards/{wildcards.proc}.{wildcards.version}.SM_gen/proc_card.dat /eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/CPV/cards/{wildcards.proc}.{wildcards.version}.SM_gen/reweight_card.dat
+    cp /eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/finalParam/ggH_test/cards/{wildcards.proc}.{wildcards.version}/* /eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/finalParam/ggH_test/cards/{wildcards.proc}.{wildcards.version}.SM_gen/
+    ./EFT2Obs/scripts/proc_lines_to_reweight_lines.py /eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/finalParam/ggH_test/cards/{wildcards.proc}.{wildcards.version}.SM_gen/proc_card.dat /eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/finalParam/ggH_test/cards/{wildcards.proc}.{wildcards.version}.SM_gen/reweight_card.dat
     """
   
 rule make_param_card:
   input:
-    "/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/CPV/cards/{proc}.{version}/config.json",
-    "/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/CPV/process_output/{proc}.{version}.tar.gz"
+    "/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/finalParam/ggH_test/cards/{proc}.{version}/config.json",
+    "/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/finalParam/ggH_test/process_output/{proc}.{version}.tar.gz"
   output:
-    "/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/CPV/cards/{proc}.{version}/param_card.dat"
+    "/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/finalParam/ggH_test/cards/{proc}.{version}/param_card.dat"
   shell:
     """
     set +u ; pushd /eft2obs ; source /eft2obs/env.sh ; popd
     pushd ${{PROC_DIR}} ; rm -rf {wildcards.proc}.{wildcards.version} ; tar -xf {wildcards.proc}.{wildcards.version}.tar.gz ; popd
-    ./EFT2Obs/scripts/make_param_card.py -p {wildcards.proc}.{wildcards.version} -c /eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/CPV/cards/{wildcards.proc}.{wildcards.version}/config.json -o /eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/CPV/cards/{wildcards.proc}.{wildcards.version}/param_card.dat
+    ./EFT2Obs/scripts/make_param_card.py -p {wildcards.proc}.{wildcards.version} -c /eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/finalParam/ggH_test/cards/{wildcards.proc}.{wildcards.version}/config.json -o /eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/finalParam/ggH_test/cards/{wildcards.proc}.{wildcards.version}/param_card.dat
     rm -r ${{PROC_DIR}}/{wildcards.proc}.{wildcards.version}
     """
 
 rule make_gridpack:
   input:
-    "/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/CPV/process_output/{proc}.{version}.SM_gen.tar.gz",
-    expand("/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/CPV/cards/{{proc}}.{{version}}.SM_gen/{card}_card.dat", card=["param", "pythia8", "reweight", "run"])
+    "/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/finalParam/ggH_test/process_output/{proc}.{version}.SM_gen.tar.gz",
+    expand("/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/finalParam/ggH_test/cards/{{proc}}.{{version}}.SM_gen/{card}_card.dat", card=["param", "pythia8", "reweight", "run"])
   output:
-    "/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/CPV/process_output/gridpack_{proc}.{version}.SM_gen.tar.gz"
+    "/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/finalParam/ggH_test/process_output/gridpack_{proc}.{version}.SM_gen.tar.gz"
   resources:
     runtime = lambda wc: config[wc.proc]["make_gridpack_runtime"],
   threads:
@@ -164,7 +165,7 @@ def getruntime(wildcards):
   import json
 
   n_events = config[wildcards.proc]["nevents"]
-  with open(f"/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/CPV/cards/{wildcards.proc}.{wildcards.version}/config.json") as f:
+  with open(f"/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/finalParam/ggH_test/cards/{wildcards.proc}.{wildcards.version}/config.json") as f:
     param_config = json.load(f)
   n_param = len(param_config["parameters"]) 
   n_rw = int(2*n_param + n_param*(n_param-1)/2)
@@ -182,10 +183,10 @@ def getruntime(wildcards):
 
 rule run_rwpoint_direct:
   input:
-    "/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/CPV/process_output/{proc}.{version}.tar.gz",
-    expand("/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/CPV/cards/{{proc}}.{{version}}/{card}_card.dat", card=["param", "pythia8", "reweight", "run"])
+    "/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/finalParam/ggH_test/process_output/{proc}.{version}.tar.gz",
+    expand("/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/finalParam/ggH_test/cards/{{proc}}.{{version}}/{card}_card.dat", card=["param", "pythia8", "reweight", "run"])
   output:
-    "/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/CPV/direct/{proc}.{version}.{rwpoint}.txt"
+    "/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/finalParam/ggH_test/direct/{proc}.{version}.{rwpoint}.txt"
   threads:
     lambda wc: config[wc.proc]["make_gridpack_threads"]
   shell:
@@ -193,13 +194,13 @@ rule run_rwpoint_direct:
       set +u ; pushd /eft2obs ; source /eft2obs/env.sh ; popd
 
       if [[ -z ${{_CONDOR_SCRATCH_DIR}} ]] ; then
-        tmpdir=$(mktemp -d -p /eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/CPV/process_output )
+        tmpdir=$(mktemp -d -p /eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/finalParam/ggH_test/process_output )
       else
         tmpdir=$(mktemp -d -p /tmp )
       fi
       tar -xf {input[0]} -C $tmpdir
 
-      cp /eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/CPV/cards/{wildcards.proc}.{wildcards.version}/*.dat ${{tmpdir}}/{wildcards.proc}.{wildcards.version}/Cards/
+      cp /eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/finalParam/ggH_test/cards/{wildcards.proc}.{wildcards.version}/*.dat ${{tmpdir}}/{wildcards.proc}.{wildcards.version}/Cards/
       
       setters=$(EFT2Obs/scripts/extract_setters.py ${{tmpdir}}/{wildcards.proc}.{wildcards.version}/Cards/reweight_card.dat {wildcards.rwpoint} )
 
@@ -222,9 +223,9 @@ rule run_rwpoint_direct:
 
 rule collect_direct:
   input:
-    expand("/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/CPV/direct/{{proc}}.{{version}}.{rwpoint}.txt", rwpoint=lambda wc: config[wc.proc]["rwpoints"])
+    expand("/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/finalParam/ggH_test/direct/{{proc}}.{{version}}.{rwpoint}.txt", rwpoint=lambda wc: config[wc.proc]["rwpoints"])
   output:
-    "/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/CPV/direct/{proc}.{version}.json"
+    "/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/finalParam/ggH_test/direct/{proc}.{version}.json"
   run:
     import json
     summary = {}
@@ -245,9 +246,9 @@ rule collect_direct:
 
 rule run_gridpack_yoda:
   input:
-    "/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/CPV/process_output/gridpack_{proc}.{version}.SM_gen.tar.gz"
+    "/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/finalParam/ggH_test/process_output/gridpack_{proc}.{version}.SM_gen.tar.gz"
   output:
-    "/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/CPV/yoda/{proc}/{version}/Rivet_{seed}.yoda.gz"
+    "/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/finalParam/ggH_test/yoda/{proc}/{version}/Rivet_{seed}.yoda.gz"
   params:
     prodmode =    lambda wc: config[wc.proc]["prodmode"],
     nevents =    lambda wc: config[wc.proc]["nevents"],
@@ -261,7 +262,7 @@ rule run_gridpack_yoda:
     export HIGGSPRODMODE={params.prodmode}
 
     if [[ -z ${{_CONDOR_SCRATCH_DIR}} ]] ; then
-      tmpdir=$(mktemp -d -p /eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/CPV/process_output )
+      tmpdir=$(mktemp -d -p /eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/finalParam/ggH_test/process_output )
     else
       tmpdir=$(mktemp -d -p /tmp )
     fi
@@ -287,9 +288,9 @@ rule run_gridpack_yoda:
 
 rule run_gridpack_lhe:
   input:
-    "/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/CPV/process_output/gridpack_{proc}.{version}.SM_gen.tar.gz"
+    "/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/finalParam/ggH_test/process_output/gridpack_{proc}.{version}.SM_gen.tar.gz"
   output:
-    "/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/CPV/lhe/{proc}/{version}/events_{seed}.lhe.gz"
+    "/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/finalParam/ggH_test/lhe/{proc}/{version}/events_{seed}.lhe.gz"
   params:
     nevents =    lambda wc: config[wc.proc]["nevents"],
   resources:
@@ -300,7 +301,7 @@ rule run_gridpack_lhe:
     set +u ; pushd /eft2obs ; source /eft2obs/env.sh ; popd
 
     if [[ -z ${{_CONDOR_SCRATCH_DIR}} ]] ; then
-      tmpdir=$(mktemp -d -p /eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/CPV/process_output )
+      tmpdir=$(mktemp -d -p /eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/finalParam/ggH_test/process_output )
     else
       tmpdir=$(mktemp -d -p /tmp )
     fi
@@ -319,9 +320,9 @@ rule run_gridpack_lhe:
 
 rule merge_yoda:
   input:
-    expand("/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/CPV/yoda/{{proc}}/{{version}}/Rivet_{i}.yoda.gz", i=lambda wc: range(config[wc.proc]["njobs"]))
+    expand("/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/finalParam/ggH_test/yoda/{{proc}}/{{version}}/Rivet_{i}.yoda.gz", i=lambda wc: range(config[wc.proc]["njobs"]))
   output:
-    "/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/CPV/yoda/{proc}/{version}/Rivet.yoda"
+    "/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/finalParam/ggH_test/yoda/{proc}/{version}/Rivet.yoda"
   shell:
     """
     set +u ; pushd /eft2obs ; source /eft2obs/env.sh ; popd
@@ -330,9 +331,9 @@ rule merge_yoda:
 
 rule merge_lhe:
   input:
-    expand("/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/CPV/lhe/{{proc}}/{{version}}/events_{i}.lhe.gz", i=lambda wc: range(config[wc.proc]["njobs"]))
+    expand("/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/finalParam/ggH_test/lhe/{{proc}}/{{version}}/events_{i}.lhe.gz", i=lambda wc: range(config[wc.proc]["njobs"]))
   output:
-    "/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/CPV/lhe/{proc}/{version}/events.lhe"
+    "/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/finalParam/ggH_test/lhe/{proc}/{version}/events.lhe"
   shell:
     """
     set +u ; pushd /eft2obs ; source /eft2obs/env.sh ; popd
@@ -342,11 +343,11 @@ rule merge_lhe:
 rule get_scaling:
   input:
     branch(lookup(dpath="{proc}/lhe", within=config),
-    then = "/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/CPV/lhe/{proc}/{version}/events.lhe",
-    otherwise = "/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/CPV/yoda/{proc}/{version}/Rivet.yoda")
+    then = "/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/finalParam/ggH_test/lhe/{proc}/{version}/events.lhe",
+    otherwise = "/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/finalParam/ggH_test/yoda/{proc}/{version}/Rivet.yoda")
   output:
-    "/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/CPV/equations/{proc}.{version}.{hist}.json",
-    "/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/CPV/equations/{proc}.{version}.{hist}.common.json"
+    "/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/finalParam/ggH_test/equations/{proc}.{version}.{hist}.json",
+    "/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/finalParam/ggH_test/equations/{proc}.{version}.{hist}.common.json"
   params:
     runset = lambda wildcards: config[wildcards.proc],
     extra_args = lambda wildcards: "--skip-square-terms --skip-cross-terms" if wildcards.version == "2" else ""
@@ -354,11 +355,11 @@ rule get_scaling:
     """
     set +u ; pushd /eft2obs ; source /eft2obs/env.sh ; popd
     ./EFT2Obs/scripts/get_scaling.py \
-    -c /eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/CPV/cards/{wildcards.proc}.{wildcards.version}/config.json \
+    -c /eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/finalParam/ggH_test/cards/{wildcards.proc}.{wildcards.version}/config.json \
     -i {input} \
     --hist "/{params.runset[rivet]}/{wildcards.hist}" \
     --save common_json,json \
-    -o /eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/CPV/equations/{wildcards.proc}.{wildcards.version}.{wildcards.hist} \
+    -o /eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/finalParam/ggH_test/equations/{wildcards.proc}.{wildcards.version}.{wildcards.hist} \
     --bin-labels EFT2Obs/resources/diff_bin_labels.json \
     --remove-empty-bins \
     --skip-print {params.extra_args}
@@ -368,17 +369,17 @@ rule add_versions:
   input:
     branch(lookup(dpath="{proc}/prop_corr", within=config), 
     then = lambda wildcards: expand(
-      "/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/CPV/equations/{proc}.{version}.{hist}.json", \
+      "/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/finalParam/ggH_test/equations/{proc}.{version}.{hist}.json", \
       proc=[wildcards.proc], \
       version=[1, 2], \
       hist=[wildcards.hist]),
     otherwise = lambda wildcards:expand(
-      "/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/CPV/equations/{proc}.{version}.{hist}.json", \
+      "/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/finalParam/ggH_test/equations/{proc}.{version}.{hist}.json", \
       proc=[wildcards.proc], \
       version=[1], \
       hist=[wildcards.hist]))
   output:
-    "/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/CPV/equations/{proc}.{hist}.json"
+    "/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/finalParam/ggH_test/equations/{proc}.{hist}.json"
   resources:
     runtime=30
   shell:
@@ -391,17 +392,17 @@ rule add_versions_common:
   input:
     branch(lookup(dpath="{proc}/prop_corr", within=config), 
     then = lambda wildcards: expand(
-      "/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/CPV/equations/{proc}.{version}.{hist}.json", \
+      "/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/finalParam/ggH_test/equations/{proc}.{version}.{hist}.json", \
       proc=[wildcards.proc], \
       version=[1, 2], \
       hist=[wildcards.hist]),
     otherwise = lambda wildcards: expand(
-      "/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/CPV/equations/{proc}.{version}.{hist}.json", \
+      "/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/finalParam/ggH_test/equations/{proc}.{version}.{hist}.json", \
       proc=[wildcards.proc], \
       version=[1], \
       hist=[wildcards.hist]))
   output:
-    "/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/CPV/equations/{proc}.{hist}.common.json"
+    "/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/finalParam/ggH_test/equations/{proc}.{hist}.common.json"
   resources:
     runtime=30
   shell:
@@ -414,17 +415,17 @@ rule add_versions_CMS:
   input:
     branch(lookup(dpath="{proc}/prop_corr", within=config), 
     then = lambda wildcards: expand(
-      "/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/CPV/equations/{proc}.{version}.{hist}.json", \
+      "/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/finalParam/ggH_test/equations/{proc}.{version}.{hist}.json", \
       proc=[wildcards.proc], \
       version=[1, 2], \
       hist=[wildcards.hist]),
     otherwise = lambda wildcards: expand(
-      "/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/CPV/equations/{proc}.{version}.{hist}.json", \
+      "/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/finalParam/ggH_test/equations/{proc}.{version}.{hist}.json", \
       proc=[wildcards.proc], \
       version=[1], \
       hist=[wildcards.hist]))
   output:
-    "/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/CPV/equations/{proc}.{hist}.CMS.json"
+    "/eos/user/c/csammora/EFT2Obs-Workflow/results/postMidterm/HIG-25-015/finalParam/ggH_test/equations/{proc}.{hist}.CMS.json"
   resources:
     runtime=30
   shell:
