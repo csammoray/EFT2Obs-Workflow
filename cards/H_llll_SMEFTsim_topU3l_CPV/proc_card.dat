@@ -1,4 +1,4 @@
-import model SMEFTsim_topU3l_MwScheme_UFO-decay_noYukawa
+import model SMEFTsim_topU3l_MwScheme_UFO-decay_noYukawa_CPV
 
 define l+ = e+ mu+
 define l- = e- mu-
