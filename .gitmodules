@@ -1,4 +1,4 @@
 [submodule "EFT2Obs"]
 	path = EFT2Obs
-	url = https://github.com/Charlotte-Knight/EFT2Obs/
-	branch = Workflow2_6
+	url = https://github.com/csammoray/EFT2Obs.git
+	branch = workflow-branch
